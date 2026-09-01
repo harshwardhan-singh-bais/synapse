@@ -1,0 +1,28 @@
+config_version = 1
+default = "claude"
+
+[[agents]]
+name        = "claude"
+command     = "claude"
+args        = []
+resume_args = ["--resume", "{id}"]
+description = "Claude Code — Anthropic's coding agent"
+
+[[agents]]
+name        = "cursor"
+command     = "cursor"
+args        = ["--headless"]
+description = "Cursor composer in headless mode"
+
+[[agents]]
+name        = "codex"
+command     = "codex"
+args        = []
+resume_args = ["resume", "--last"]
+description = "OpenAI Codex CLI"
+
+[[agents]]
+name        = "gemini-cli"
+command     = "gemini"
+args        = []
+description = "Google Gemini CLI"

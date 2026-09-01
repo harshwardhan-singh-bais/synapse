@@ -1,0 +1,115 @@
+# OS-specific files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.Python
+env/
+venv/
+ENV/
+.env
+.env.local
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+tmp_*/
+*.bak
+*.bak2
+
+# Testing
+.tarpaulin
+cobertura.xml
+junit.xml
+.coverage
+coverage.json
+
+# Nextest
+.nextest/
+
+# Insta snapshots (Rust)
+*.snap.new
+
+# Eleventy build output
+_site/
+
+# Claude
+.aider*
+*.claude/scheduled_tasks.lock
+
+# Local orchestrator/agent worker workspaces
+thurbox/
+
+# Python packaging
+*.whl
+
+# uv (Python)
+uv.lock
+
+# Kodo-specific
+.kodo/
+trials/
+
+# Hcom-specific
+/bin/
+/.hcom/
+
+# Demo videos (copied at deploy time)
+website/assets/*.mp4
+
+# UI bundled files
+ui/.bundled.json
+
+*.md
+
+.env
+.env.local

@@ -1,0 +1,609 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Synapse TUI — Dark neon theme
+   Palette: deep charcoal bg · electric blue accent · neon green · crimson
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Globals ─────────────────────────────────────────────────────────────── */
+
+Screen {
+    background: #0a0e14;
+    color: #e6edf3;
+    layers: base overlay notifications;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+
+Header {
+    background: #0d1117;
+    color: #58a6ff;
+    border-bottom: solid #21262d;
+    text-style: bold;
+}
+
+Header > .header--title {
+    color: #58a6ff;
+    text-style: bold;
+}
+
+Header > .header--sub-title {
+    color: #484f58;
+}
+
+/* ─── Footer ──────────────────────────────────────────────────────────────── */
+
+Footer {
+    background: #0d1117;
+    color: #8b949e;
+    border-top: solid #21262d;
+}
+
+Footer > .footer--key {
+    background: #161b22;
+    color: #58a6ff;
+    border-right: solid #21262d;
+}
+
+Footer > .footer--description {
+    color: #6e7681;
+}
+
+/* ─── Layout ──────────────────────────────────────────────────────────────── */
+
+#app-layout {
+    layout: horizontal;
+    height: 1fr;
+}
+
+/* ─── Session Sidebar ─────────────────────────────────────────────────────── */
+
+SessionSidebar {
+    width: 28;
+    min-width: 22;
+    background: #0d1117;
+    border-right: solid #21262d;
+    padding: 0;
+    height: 1fr;
+}
+
+SessionSidebar > Vertical {
+    height: 1fr;
+}
+
+SessionSidebar .sidebar-title {
+    color: #58a6ff;
+    text-style: bold;
+    padding: 1 1;
+    border-bottom: solid #21262d;
+    background: #0d1117;
+    width: 1fr;
+}
+
+SessionSidebar .sidebar-empty {
+    color: #484f58;
+    margin: 2 1;
+    text-style: italic;
+}
+
+SessionSidebar ListView {
+    background: transparent;
+    border: none;
+    height: 1fr;
+    padding: 0;
+}
+
+SessionSidebar ListItem {
+    padding: 1 1;
+    border-bottom: solid #161b22;
+    background: transparent;
+    height: auto;
+}
+
+SessionSidebar ListItem:hover {
+    background: #161b22;
+}
+
+SessionSidebar ListItem.--highlight {
+    background: #1a2233;
+    border-left: tall #58a6ff;
+}
+
+SessionSidebar ListItem.selected-item {
+    background: #1a2233;
+    border-left: tall #58a6ff;
+}
+
+/* ─── Main Content Area ───────────────────────────────────────────────────── */
+
+#main-content {
+    background: #0a0e14;
+    height: 1fr;
+    width: 1fr;
+}
+
+/* ─── Tabs ────────────────────────────────────────────────────────────────── */
+
+TabbedContent {
+    background: #0a0e14;
+    height: 1fr;
+}
+
+TabbedContent ContentSwitcher {
+    background: #0a0e14;
+    height: 1fr;
+}
+
+TabPane {
+    background: #0a0e14;
+    padding: 0;
+    height: 1fr;
+}
+
+Tabs {
+    background: #0d1117;
+    border-bottom: solid #21262d;
+}
+
+Tabs > Tab {
+    color: #6e7681;
+    padding: 0 3;
+    background: transparent;
+}
+
+Tabs > Tab:hover {
+    color: #c9d1d9;
+    background: #161b22;
+}
+
+Tabs > Tab.-active {
+    color: #58a6ff;
+    background: #0a0e14;
+    border-top: tall #58a6ff;
+}
+
+/* ─── Session Terminal ────────────────────────────────────────────────────── */
+
+SessionTerminal {
+    background: #090c10;
+    border: solid #21262d;
+    height: 1fr;
+}
+
+#terminal-scroll {
+    background: #090c10;
+    height: 1fr;
+    padding: 0;
+}
+
+#terminal-log {
+    background: #090c10;
+    color: #8b949e;
+    height: 1fr;
+    padding: 1 1;
+}
+
+/* ─── Orchestration Dashboard ─────────────────────────────────────────────── */
+
+OrchestrationDashboard {
+    background: #0a0e14;
+    height: 1fr;
+}
+
+OrchestrationDashboard > Vertical {
+    height: 1fr;
+}
+
+.dashboard-title {
+    color: #7ee787;
+    text-style: bold;
+    padding: 1 1;
+    border-bottom: solid #21262d;
+    background: #0d1117;
+    width: 1fr;
+}
+
+.panel-subtitle {
+    color: #484f58;
+    text-style: italic bold;
+    padding: 0 1;
+    border-bottom: solid #161b22;
+}
+
+#dash-top {
+    height: 16;
+    border-bottom: solid #21262d;
+}
+
+#runs-panel {
+    width: 1fr;
+    background: #0a0e14;
+    border-right: solid #21262d;
+    height: 1fr;
+}
+
+#runs-content {
+    padding: 0 1;
+    height: auto;
+}
+
+#feed-panel {
+    width: 1fr;
+    background: #0a0e14;
+    height: 1fr;
+}
+
+#feed-content {
+    padding: 0;
+    height: auto;
+}
+
+#stages-panel {
+    height: 10;
+    border-bottom: solid #21262d;
+}
+
+#cost-panel {
+    height: 1fr;
+}
+
+/* ─── Agent Mailbox ───────────────────────────────────────────────────────── */
+
+AgentMailbox {
+    background: #0a0e14;
+    height: 1fr;
+}
+
+AgentMailbox > Vertical {
+    height: 1fr;
+}
+
+#mailbox-top {
+    height: 1fr;
+    border-bottom: solid #21262d;
+}
+
+#inbox-panel {
+    width: 30;
+    border-right: solid #21262d;
+    background: #0d1117;
+    height: 1fr;
+}
+
+#inbox-content {
+    padding: 0 1;
+    height: auto;
+}
+
+#thread-panel {
+    width: 1fr;
+    background: #0a0e14;
+    height: 1fr;
+}
+
+#thread-content {
+    padding: 0 1;
+    height: auto;
+}
+
+#compose-area {
+    height: 3;
+    background: #0d1117;
+    border-top: solid #21262d;
+    padding: 0 1;
+    align: left middle;
+}
+
+#compose-input {
+    width: 1fr;
+    background: #090c10;
+    border: solid #30363d;
+    color: #e6edf3;
+    height: 3;
+}
+
+#compose-input:focus {
+    border: solid #58a6ff;
+}
+
+#send-btn {
+    background: #1f6feb;
+    border: solid #388bfd;
+    color: #e6edf3;
+    margin-left: 1;
+    height: 3;
+    min-width: 8;
+}
+
+#send-btn:hover {
+    background: #388bfd;
+}
+
+#broadcast-btn {
+    background: #21262d;
+    border: solid #30363d;
+    color: #8b949e;
+    margin-left: 1;
+    height: 3;
+    min-width: 12;
+}
+
+#broadcast-btn:hover {
+    background: #30363d;
+    border: solid #8b949e;
+}
+
+/* ─── DataTable ───────────────────────────────────────────────────────────── */
+
+DataTable {
+    background: #0d1117;
+    color: #c9d1d9;
+    height: 1fr;
+}
+
+DataTable > .datatable--header {
+    background: #161b22;
+    color: #7ee787;
+    text-style: bold;
+}
+
+DataTable > .datatable--header-cursor {
+    background: #1f2937;
+    color: #7ee787;
+}
+
+DataTable > .datatable--cursor {
+    background: #1a2233;
+    color: #e6edf3;
+}
+
+DataTable > .datatable--even-row {
+    background: #090c10;
+}
+
+DataTable > .datatable--odd-row {
+    background: #0d1117;
+}
+
+/* ─── Input ───────────────────────────────────────────────────────────────── */
+
+Input {
+    background: #0d1117;
+    border: solid #30363d;
+    color: #e6edf3;
+}
+
+Input:focus {
+    border: solid #58a6ff;
+}
+
+Input > .input--placeholder {
+    color: #484f58;
+}
+
+/* ─── Button ──────────────────────────────────────────────────────────────── */
+
+Button {
+    background: #21262d;
+    color: #c9d1d9;
+    border: solid #30363d;
+}
+
+Button:hover {
+    background: #30363d;
+    border: solid #58a6ff;
+    color: #e6edf3;
+}
+
+Button.-primary {
+    background: #1f6feb;
+    border: solid #388bfd;
+    color: #ffffff;
+}
+
+Button.-primary:hover {
+    background: #388bfd;
+}
+
+/* ─── Log widget ──────────────────────────────────────────────────────────── */
+
+Log {
+    background: #090c10;
+    color: #8b949e;
+    border: none;
+    scrollbar-color: #21262d;
+    scrollbar-color-hover: #30363d;
+}
+
+/* ─── Select ──────────────────────────────────────────────────────────────── */
+
+Select {
+    background: #0d1117;
+    border: solid #30363d;
+    color: #e6edf3;
+}
+
+Select:focus {
+    border: solid #58a6ff;
+}
+
+Select > SelectCurrent {
+    background: #0d1117;
+    color: #e6edf3;
+}
+
+SelectOverlay {
+    background: #161b22;
+    border: solid #30363d;
+}
+
+SelectOverlay > Option {
+    color: #c9d1d9;
+}
+
+SelectOverlay > Option:hover {
+    background: #1a2233;
+    color: #e6edf3;
+}
+
+SelectOverlay > Option.-highlighted {
+    background: #1a2233;
+    color: #58a6ff;
+}
+
+/* ─── ScrollableContainer ─────────────────────────────────────────────────── */
+
+ScrollableContainer {
+    scrollbar-color: #21262d;
+    scrollbar-color-hover: #30363d;
+    scrollbar-background: #0a0e14;
+    scrollbar-background-hover: #0d1117;
+}
+
+/* ─── Toast Notifications ─────────────────────────────────────────────────── */
+
+Toast {
+    background: #161b22;
+    border: tall #58a6ff;
+    color: #e6edf3;
+}
+
+Toast.-information {
+    border: tall #58a6ff;
+    background: #0d1b30;
+}
+
+Toast.-warning {
+    border: tall #d29922;
+    background: #2d2209;
+}
+
+Toast.-error {
+    border: tall #f85149;
+    background: #2d1515;
+}
+
+Toast.-success {
+    border: tall #3fb950;
+    background: #0d2d15;
+}
+
+/* ─── Modal dialog (NewSessionScreen) ────────────────────────────────────── */
+
+NewSessionScreen {
+    align: center middle;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+#dialog {
+    background: #0d1117;
+    border: double #58a6ff;
+    padding: 2 3;
+    width: 62;
+    height: auto;
+    max-height: 80%;
+}
+
+#dialog-title {
+    color: #58a6ff;
+    text-style: bold;
+    text-align: center;
+    margin-bottom: 1;
+    padding-bottom: 1;
+    border-bottom: solid #21262d;
+}
+
+#dialog Label {
+    color: #8b949e;
+    margin-top: 1;
+}
+
+#dialog-buttons {
+    margin-top: 2;
+    align: right middle;
+    height: 3;
+}
+
+#create-btn {
+    margin-right: 1;
+}
+
+#cancel-btn {
+    background: #21262d;
+    border: solid #30363d;
+    color: #8b949e;
+}
+
+/* ─── Status colour helpers ───────────────────────────────────────────────── */
+
+.status-idle        { color: #6e7681; }
+.status-working     { color: #3fb950; }
+.status-blocked     { color: #f85149; }
+.status-done        { color: #58a6ff; }
+.status-error       { color: #f85149; }
+.status-unreachable { color: #d29922; }
+
+/* ─── RunCard ─────────────────────────────────────────────────────────────── */
+
+RunCard {
+    height: auto;
+    margin: 0 0 1 0;
+    padding: 1;
+    border: solid #21262d;
+    background: #0d1117;
+}
+
+/* ─── ProgressBar ─────────────────────────────────────────────────────────── */
+
+ProgressBar {
+    height: 1;
+}
+
+ProgressBar > .bar--complete {
+    color: #3fb950;
+}
+
+ProgressBar > .bar--indeterminate {
+    color: #58a6ff;
+}
+
+ProgressBar > .bar--bar {
+    color: #21262d;
+}
+
+/* ─── Perf HUD ───────────────────────────────────────────────────────────── */
+
+#perf-hud {
+    background: rgba(13, 17, 23, 0.9);
+    border: solid #30363d;
+    color: #8b949e;
+    dock: right;
+    width: 32;
+    height: auto;
+    max-height: 50%;
+    padding: 1;
+    layer: overlay;
+    visibility: hidden;
+}
+
+#perf-hud.visible {
+    visibility: visible;
+}
+
+.perf-title {
+    color: #d29922;
+    text-style: bold;
+    border-bottom: solid #21262d;
+    margin-bottom: 1;
+}
+
+.perf-row {
+    color: #8b949e;
+    height: 1;
+}
+
+.perf-label {
+    color: #6e7681;
+}
+
+.perf-value {
+    color: #58a6ff;
+}

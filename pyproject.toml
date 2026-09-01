@@ -1,0 +1,36 @@
+[project]
+name = "synapse"
+version = "0.1.0"
+requires-python = ">=3.11"
+description = "Unified coding-agent orchestration platform"
+dependencies = [
+    "textual>=0.47.0",
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "sqlite-utils>=3.35",
+    "pydantic>=2.0",
+    "pydantic-ai>=1.0",
+    "tomli-w>=1.0",
+    "watchdog>=3.0",
+    "psutil>=5.9",
+    "croniter>=2.0",
+    "pendulum>=3.0",
+    "pyte>=0.8",
+    "pyperclip>=1.8",
+    "paho-mqtt>=1.6",
+    "PyNaCl>=1.5",
+    "uuid>=1.30",
+    "claude-agent-sdk>=0.0.14",
+    "structlog>=24.0",
+    "httpx>=0.27",
+]
+
+[project.scripts]
+synapse = "synapse.cli.main:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["synapse"]

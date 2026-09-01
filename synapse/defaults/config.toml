@@ -1,0 +1,19 @@
+# Synapse configuration
+# Location: ~/.config/synapse/config.toml
+
+[synapse]
+default_agent        = "claude"
+effort               = "standard"
+terminal             = "tmux"
+max_parallel         = 2
+audit_retention_days = 30
+
+[relay]
+enabled = false
+# url = "mqtts://broker.emqx.io:8883"
+
+[features]
+tasks               = true
+automations         = true
+collision_detection = true
+notifications       = true
