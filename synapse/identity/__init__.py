@@ -7,7 +7,7 @@ from .bindings import (
     CLAUDE_ACTOR_PROFILES,
     resolve_identity,
 )
-from .names import CVCVNameAllocator
+from .names import allocate_name, resolve_name
 
 __all__ = [
     "BindingManager",
@@ -15,5 +15,6 @@ __all__ = [
     "ClaudeCapability",
     "CLAUDE_ACTOR_PROFILES",
     "resolve_identity",
-    "CVCVNameAllocator",
+    "allocate_name",
+    "resolve_name",
 ]

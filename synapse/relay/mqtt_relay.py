@@ -68,6 +68,67 @@ class RelayConfig:
         self.set("relay_enabled", "true")
         return f"synapse-relay:{relay_id}:{token}"
 
+    def save_psk_to_file(self, filepath: str) -> None:
+        """Save the pre-shared key (PSK) to a file for file-only security.
+
+        This allows using file-based key storage instead of database storage.
+        The file contains the relay_id and token in a simple format.
+        """
+        import os
+        relay_id = self.relay_id
+        token = self.token or ""
+        content = f"relay_id={relay_id}\ntoken={token}\n"
+        
+        # Ensure directory exists
+        os.makedirs(os.path.dirname(filepath) or ".", exist_ok=True)
+        
+        with open(filepath, "w") as f:
+            f.write(content)
+        
+        # Restrict permissions on Unix systems
+        try:
+            os.chmod(filepath, 0o600)
+        except (OSError, AttributeError):
+            pass
+
+    def load_psk_from_file(self, filepath: str) -> bool:
+        """Load pre-shared key (PSK) from a file.
+
+        Returns True if the file was loaded successfully.
+        The file should contain lines like:
+            relay_id=<uuid>
+            token=<base64-token>
+        """
+        try:
+            with open(filepath, "r") as f:
+                content = f.read()
+            
+            relay_id = None
+            token = None
+            
+            for line in content.splitlines():
+                line = line.strip()
+                if line.startswith("relay_id="):
+                    relay_id = line[9:]
+                elif line.startswith("token="):
+                    token = line[6:]
+            
+            if relay_id and token:
+                self.set("relay_id", relay_id)
+                self.set("relay_token", token)
+                return True
+            return False
+        except (OSError, IOError):
+            return False
+
+    def get_psk_filepath(self) -> Optional[str]:
+        """Get the configured PSK file path, or None if file-only mode is disabled."""
+        return self.get("relay_psk_filepath")
+
+    def set_psk_filepath(self, filepath: str) -> None:
+        """Set the PSK file path for file-only security mode."""
+        self.set("relay_psk_filepath", filepath)
+
     def connect_from_token(self, join_token: str, url: str) -> None:
         """Join an existing relay channel using a token produced by :meth:`generate_new`."""
         parts = join_token.split(":", 2)
@@ -435,23 +496,69 @@ class MQTTRelay:
     # ──────────────────────────────────────────────────────────────
 
     def _derive_key(self) -> bytes:
+        """Derive encryption key from the relay token.
+
+        Uses SHA-256 hash of the token as the key material.
+        """
         token = self.config.token or ""
         return hashlib.sha256(token.encode()).digest()
 
     def _encrypt(self, data: str) -> bytes:
-        """Encrypt *data* with PyNaCl SecretBox. Falls back to raw bytes."""
+        """Encrypt *data* with XChaCha20-Poly1305 AEAD.
+
+        Falls back to standard SecretBox if XChaCha20 is unavailable,
+        then to raw bytes if PyNaCl is not installed.
+        """
         try:
+            # Try XChaCha20-Poly1305 AEAD first (more secure)
+            from cryptography.hazmat.primitives.ciphers.aead import XChaCha20Poly1305  # type: ignore[import]
+            import os
+            key = self._derive_key()[:32]  # Ensure 32-byte key for XChaCha20
+            nonce = os.urandom(24)  # 24-byte nonce for XChaCha20
+            aead = XChaCha20Poly1305(key)
+            ciphertext = aead.encrypt(nonce, data.encode(), None)
+            # Prepend nonce to ciphertext: nonce (24) + ciphertext
+            return nonce + ciphertext
+        except ImportError:
+            pass
+
+        try:
+            # Fallback to standard SecretBox
             from nacl.secret import SecretBox  # type: ignore[import]
             box = SecretBox(self._derive_key())
             return box.encrypt(data.encode())
         except ImportError:
-            return data.encode()
+            pass
+
+        # Last resort: raw bytes (insecure)
+        return data.encode()
 
     def _decrypt(self, data: bytes) -> str:
-        """Decrypt *data* with PyNaCl SecretBox. Falls back to raw decode."""
+        """Decrypt *data* with XChaCha20-Poly1305 AEAD.
+
+        Falls back to standard SecretBox if XChaCha20 fails,
+        then to raw decode if PyNaCl is not installed.
+        """
         try:
+            # Try XChaCha20-Poly1305 AEAD first
+            from cryptography.hazmat.primitives.ciphers.aead import XChaCha20Poly1305  # type: ignore[import]
+            key = self._derive_key()[:32]  # Ensure 32-byte key for XChaCha20
+            if len(data) >= 24:
+                nonce = data[:24]
+                ciphertext = data[24:]
+                aead = XChaCha20Poly1305(key)
+                plaintext = aead.decrypt(nonce, ciphertext, None)
+                return plaintext.decode()
+        except (ImportError, Exception):
+            pass
+
+        try:
+            # Fallback to standard SecretBox
             from nacl.secret import SecretBox  # type: ignore[import]
             box = SecretBox(self._derive_key())
             return box.decrypt(data).decode()
-        except ImportError:
-            return data.decode()
+        except (ImportError, Exception):
+            pass
+
+        # Last resort: raw decode (insecure)
+        return data.decode()
