@@ -12,7 +12,7 @@ Desktop.ini
 .project
 .classpath
 .settings/
-
+.utim_tmp
 # Python
 __pycache__/
 *.py[cod]
