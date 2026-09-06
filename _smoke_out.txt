@@ -1,0 +1,416 @@
+on boot: BootScreen
+after boot: Screen
+after press 2
+after press 3
+after press 1
+showcase: Screen
+modal: Screen
+SMOKE_OK
+\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Traceback (most recent call last) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+\u2502 c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\widget 
+\u2502 .py:4285 in render_lines                                                     
+\u2502                                                                              
+\u2502   4282 \u2502   \u2502   \u2502   \u2502   Strip.blank(crop.width, self.visual_style.rich_style) 
+\u2502   4283 \u2502   \u2502   \u2502   ] * crop.height                                           
+\u2502   4284 \u2502   \u2502   else:                                                         
+\u2502 \u2771 4285 \u2502   \u2502   \u2502   strips = self._styles_cache.render_widget(self, crop)     
+\u2502   4286 \u2502   \u2502   return strips                                                 
+\u2502   4287 \u2502                                                                     
+\u2502   4288 \u2502   def get_style_at(self, x: int, y: int) -> Style:                  
+\u2502                                                                              
+\u2502 \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 locals \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e                             
+\u2502 \u2502 crop = Region(x=0, y=0, width=132, height=2) \u2502                             
+\u2502 \u2502 self = SynapseHeader(id='app-header')        \u2502                             
+\u2502 \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f                             
+\u2502                                                                              
+\u2502 c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_style 
+\u2502 s_cache.py:116 in render_widget                                              
+\u2502                                                                              
+\u2502   113 \u2502   \u2502   base_background, background = widget.background_colors         
+\u2502   114 \u2502   \u2502   styles = widget.styles                                         
+\u2502   115 \u2502   \u2502   app = widget.app                                               
+\u2502 \u2771 116 \u2502   \u2502   strips = self.render(                                          
+\u2502   117 \u2502   \u2502   \u2502   styles,                                                    
+\u2502   118 \u2502   \u2502   \u2502   widget.region.size,                                        
+\u2502   119 \u2502   \u2502   \u2502   base_background,                                           
+\u2502                                                                              
+\u2502 \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 locals \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e 
+\u2502 \u2502             app = SynapseApp(                                            \u2502 
+\u2502 \u2502                   \u2502   title='SYN·APSE',                                  \u2502 
+\u2502 \u2502                   \u2502   classes={'-dark-mode'},                            \u2502 
+\u2502 \u2502                   \u2502   pseudo_classes={'focus', 'dark'}                   \u2502 
+\u2502 \u2502                   )                                                      \u2502 
+\u2502 \u2502      background = Color(21, 19, 28)                                      \u2502 
+\u2502 \u2502 base_background = Color(14, 12, 18)                                      \u2502 
+\u2502 \u2502 border_subtitle = None                                                   \u2502 
+\u2502 \u2502    border_title = None                                                   \u2502 
+\u2502 \u2502            crop = Region(x=0, y=0, width=132, height=2)                  \u2502 
+\u2502 \u2502            self = <StylesCache width=132>                                \u2502 
+\u2502 \u2502          styles = RenderStyles(                                          \u2502 
+\u2502 \u2502                   \u2502   SynapseHeader(id='app-header'),                    \u2502 
+\u2502 \u2502                   \u2502   auto_color=False,                                  \u2502 
+\u2502 \u2502                   \u2502   color=Color(239, 233, 224),                        \u2502 
+\u2502 \u2502                   \u2502   background=Color(21, 19, 28),                      \u2502 
+\u2502 \u2502                   \u2502   padding=Spacing(                                   \u2502 
+\u2502 \u2502                   \u2502   \u2502   top=0,                                         \u2502 
+\u2502 \u2502                   \u2502   \u2502   right=2,                                       \u2502 
+\u2502 \u2502                   \u2502   \u2502   bottom=0,                                      \u2502 
+\u2502 \u2502                   \u2502   \u2502   left=2                                         \u2502 
+\u2502 \u2502                   \u2502   ),                                                 \u2502 
+\u2502 \u2502                   \u2502   border_bottom=('solid', Color(38, 34, 48)),        \u2502 
+\u2502 \u2502                   \u2502   height=Scalar(                                     \u2502 
+\u2502 \u2502                   \u2502   \u2502   value=2.0,                                     \u2502 
+\u2502 \u2502                   \u2502   \u2502   unit=<Unit.CELLS: 1>,                          \u2502 
+\u2502 \u2502                   \u2502   \u2502   percent_unit=<Unit.WIDTH: 4>                   \u2502 
+\u2502 \u2502                   \u2502   ),                                                 \u2502 
+\u2502 \u2502                   \u2502   dock='top',                                        \u2502 
+\u2502 \u2502                   \u2502   scrollbar_color=Color(0, 48, 84),                  \u2502 
+\u2502 \u2502                   \u2502   scrollbar_color_hover=Color(0, 60, 106),           \u2502 
+\u2502 \u2502                   \u2502   scrollbar_color_active=Color(1, 120, 212),         \u2502 
+\u2502 \u2502                   \u2502   scrollbar_corner_color=Color(0, 0, 0),             \u2502 
+\u2502 \u2502                   \u2502   scrollbar_background=Color(0, 0, 0),               \u2502 
+\u2502 \u2502                   \u2502   scrollbar_background_hover=Color(0, 0, 0),         \u2502 
+\u2502 \u2502                   \u2502   scrollbar_background_active=Color(0, 0, 0),        \u2502 
+\u2502 \u2502                   \u2502   scrollbar_size_vertical=2,                         \u2502 
+\u2502 \u2502                   \u2502   scrollbar_size_horizontal=1,                       \u2502 
+\u2502 \u2502                   \u2502   link_color=Color(255, 255, 255, a=0.87),           \u2502 
+\u2502 \u2502                   \u2502   auto_link_color=True,                              \u2502 
+\u2502 \u2502                   \u2502   link_background=Color(0, 0, 0, a=0),               \u2502 
+\u2502 \u2502                   \u2502   link_style=Style(underline=True),                  \u2502 
+\u2502 \u2502                   \u2502   link_color_hover=Color(255, 255, 255, a=0.87),     \u2502 
+\u2502 \u2502                   \u2502   auto_link_color_hover=True,                        \u2502 
+\u2502 \u2502                   \u2502   link_background_hover=Color(1, 120, 212),          \u2502 
+\u2502 \u2502                   \u2502   link_style_hover=Style(                            \u2502 
+\u2502 \u2502                   \u2502   \u2502   bold=True,                                     \u2502 
+\u2502 \u2502                   \u2502   \u2502   underline=False                                \u2502 
+\u2502 \u2502                   \u2502   )                                                  \u2502 
+\u2502 \u2502                   )                                                      \u2502 
+\u2502 \u2502          widget = SynapseHeader(id='app-header')                         \u2502 
+\u2502 \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f 
+\u2502                                                                              
+\u2502 c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_style 
+\u2502 s_cache.py:221 in render                                                     
+\u2502                                                                              
+\u2502   218 \u2502   \u2502                                                                  
+\u2502   219 \u2502   \u2502   for y in crop.line_range:                                      
+\u2502   220 \u2502   \u2502   \u2502   if is_dirty(y) or y not in self._cache:                    
+\u2502 \u2771 221 \u2502   \u2502   \u2502   \u2502   strip = render_line(                                   
+\u2502   222 \u2502   \u2502   \u2502   \u2502   \u2502   styles,                                            
+\u2502   223 \u2502   \u2502   \u2502   \u2502   \u2502   y,                                                 
+\u2502   224 \u2502   \u2502   \u2502   \u2502   \u2502   size,                                              
+\u2502                                                                              
+\u2502 \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 locals \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e 
+\u2502 \u2502             _height = 2                                                  \u2502 
+\u2502 \u2502           add_strip = <built-in method append of list object at          \u2502 
+\u2502 \u2502                       0x0000028462C33D40>                                \u2502 
+\u2502 \u2502          ansi_theme = <rich.terminal_theme.TerminalTheme object at       \u2502 
+\u2502 \u2502                       0x000002845FDFE5D0>                                \u2502 
+\u2502 \u2502          background = Color(21, 19, 28)                                  \u2502 
+\u2502 \u2502     base_background = Color(14, 12, 18)                                  \u2502 
+\u2502 \u2502     border_subtitle = None                                               \u2502 
+\u2502 \u2502        border_title = None                                               \u2502 
+\u2502 \u2502        content_size = Size(width=128, height=1)                          \u2502 
+\u2502 \u2502                crop = Region(x=0, y=0, width=132, height=2)              \u2502 
+\u2502 \u2502             filters = [                                                  \u2502 
+\u2502 \u2502                       \u2502   <textual.filter.ANSIToTruecolor object at      \u2502 
+\u2502 \u2502                       0x0000028461A4ABD0>                                \u2502 
+\u2502 \u2502                       ]                                                  \u2502 
+\u2502 \u2502            is_dirty = <built-in method __contains__ of set object at     \u2502 
+\u2502 \u2502                       0x0000028462B1BE60>                                \u2502 
+\u2502 \u2502         native_ansi = False                                              \u2502 
+\u2502 \u2502             opacity = 1.0                                                \u2502 
+\u2502 \u2502             padding = Spacing(top=0, right=2, bottom=0, left=2)          \u2502 
+\u2502 \u2502 render_content_line = <bound method Widget.render_line of                \u2502 
+\u2502 \u2502                       SynapseHeader(id='app-header')>                    \u2502 
+\u2502 \u2502         render_line = <bound method StylesCache.render_line of           \u2502 
+\u2502 \u2502                       <StylesCache width=132>>                           \u2502 
+\u2502 \u2502                self = <StylesCache width=132>                            \u2502 
+\u2502 \u2502                size = Size(width=132, height=2)                          \u2502 
+\u2502 \u2502              strips = []                                                 \u2502 
+\u2502 \u2502              styles = RenderStyles(                                      \u2502 
+\u2502 \u2502                       \u2502   SynapseHeader(id='app-header'),                \u2502 
+\u2502 \u2502                       \u2502   auto_color=False,                              \u2502 
+\u2502 \u2502                       \u2502   color=Color(239, 233, 224),                    \u2502 
+\u2502 \u2502                       \u2502   background=Color(21, 19, 28),                  \u2502 
+\u2502 \u2502                       \u2502   padding=Spacing(                               \u2502 
+\u2502 \u2502                       \u2502   \u2502   top=0,                                     \u2502 
+\u2502 \u2502                       \u2502   \u2502   right=2,                                   \u2502 
+\u2502 \u2502                       \u2502   \u2502   bottom=0,                                  \u2502 
+\u2502 \u2502                       \u2502   \u2502   left=2                                     \u2502 
+\u2502 \u2502                       \u2502   ),                                             \u2502 
+\u2502 \u2502                       \u2502   border_bottom=('solid', Color(38, 34, 48)),    \u2502 
+\u2502 \u2502                       \u2502   height=Scalar(                                 \u2502 
+\u2502 \u2502                       \u2502   \u2502   value=2.0,                                 \u2502 
+\u2502 \u2502                       \u2502   \u2502   unit=<Unit.CELLS: 1>,                      \u2502 
+\u2502 \u2502                       \u2502   \u2502   percent_unit=<Unit.WIDTH: 4>               \u2502 
+\u2502 \u2502                       \u2502   ),                                             \u2502 
+\u2502 \u2502                       \u2502   dock='top',                                    \u2502 
+\u2502 \u2502                       \u2502   scrollbar_color=Color(0, 48, 84),              \u2502 
+\u2502 \u2502                       \u2502   scrollbar_color_hover=Color(0, 60, 106),       \u2502 
+\u2502 \u2502                       \u2502   scrollbar_color_active=Color(1, 120, 212),     \u2502 
+\u2502 \u2502                       \u2502   scrollbar_corner_color=Color(0, 0, 0),         \u2502 
+\u2502 \u2502                       \u2502   scrollbar_background=Color(0, 0, 0),           \u2502 
+\u2502 \u2502                       \u2502   scrollbar_background_hover=Color(0, 0, 0),     \u2502 
+\u2502 \u2502                       \u2502   scrollbar_background_active=Color(0, 0, 0),    \u2502 
+\u2502 \u2502                       \u2502   scrollbar_size_vertical=2,                     \u2502 
+\u2502 \u2502                       \u2502   scrollbar_size_horizontal=1,                   \u2502 
+\u2502 \u2502                       \u2502   link_color=Color(255, 255, 255, a=0.87),       \u2502 
+\u2502 \u2502                       \u2502   auto_link_color=True,                          \u2502 
+\u2502 \u2502                       \u2502   link_background=Color(0, 0, 0, a=0),           \u2502 
+\u2502 \u2502                       \u2502   link_style=Style(underline=True),              \u2502 
+\u2502 \u2502                       \u2502   link_color_hover=Color(                        \u2502 
+\u2502 \u2502                       \u2502   \u2502   255,                                       \u2502 
+\u2502 \u2502                       \u2502   \u2502   255,                                       \u2502 
+\u2502 \u2502                       \u2502   \u2502   255,                                       \u2502 
+\u2502 \u2502                       \u2502   \u2502   a=0.87                                     \u2502 
+\u2502 \u2502                       \u2502   ),                                             \u2502 
+\u2502 \u2502                       \u2502   auto_link_color_hover=True,                    \u2502 
+\u2502 \u2502                       \u2502   link_background_hover=Color(1, 120, 212),      \u2502 
+\u2502 \u2502                       \u2502   link_style_hover=Style(                        \u2502 
+\u2502 \u2502                       \u2502   \u2502   bold=True,                                 \u2502 
+\u2502 \u2502                       \u2502   \u2502   underline=False                            \u2502 
+\u2502 \u2502                       \u2502   )                                              \u2502 
+\u2502 \u2502                       )                                                  \u2502 
+\u2502 \u2502               width = 132                                                \u2502 
+\u2502 \u2502                   y = 0                                                  \u2502 
+\u2502 \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f 
+\u2502                                                                              
+\u2502 c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_style 
+\u2502 s_cache.py:455 in render_line                                                
+\u2502                                                                              
+\u2502   452 \u2502   \u2502   \u2502   # Content with border and padding (C)                      
+\u2502   453 \u2502   \u2502   \u2502   content_y = y - gutter.top                                 
+\u2502   454 \u2502   \u2502   \u2502   if content_y < content_height:                             
+\u2502 \u2771 455 \u2502   \u2502   \u2502   \u2502   line = render_content_line(y - gutter.top)             
+\u2502   456 \u2502   \u2502   \u2502   \u2502   line = line.adjust_cell_length(content_width, inner.ri 
+\u2502   457 \u2502   \u2502   \u2502   else:                                                      
+\u2502   458 \u2502   \u2502   \u2502   \u2502   line = Strip.blank(content_width, inner.rich_style)    
+\u2502                                                                              
+\u2502 \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 locals \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e 
+\u2502 \u2502           ansi_theme = <rich.terminal_theme.TerminalTheme object at      \u2502 
+\u2502 \u2502                        0x000002845FDFE5D0>                               \u2502 
+\u2502 \u2502           background = Color(21, 19, 28)                                 \u2502 
+\u2502 \u2502      base_background = Color(14, 12, 18)                                 \u2502 
+\u2502 \u2502        border_bottom = 'solid'                                           \u2502 
+\u2502 \u2502  border_bottom_color = Color(38, 34, 48)                                 \u2502 
+\u2502 \u2502          border_left = ''                                                \u2502 
+\u2502 \u2502    border_left_color = Color(0, 255, 0)                                  \u2502 
+\u2502 \u2502         border_right = ''                                                \u2502 
+\u2502 \u2502   border_right_color = Color(0, 255, 0)                                  \u2502 
+\u2502 \u2502      border_subtitle = None                                              \u2502 
+\u2502 \u2502         border_title = None                                              \u2502 
+\u2502 \u2502           border_top = ''                                                \u2502 
+\u2502 \u2502     border_top_color = Color(0, 255, 0)                                  \u2502 
+\u2502 \u2502   cache_simple_strip = False                                             \u2502 
+\u2502 \u2502       content_height = 1                                                 \u2502 
+\u2502 \u2502         content_size = Size(width=128, height=1)                         \u2502 
+\u2502 \u2502        content_width = 128                                               \u2502 
+\u2502 \u2502            content_y = 0                                                 \u2502 
+\u2502 \u2502           from_color = <bound method Style.from_color of <class          \u2502 
+\u2502 \u2502                        'rich.style.Style'>>                              \u2502 
+\u2502 \u2502               gutter = Spacing(top=0, right=2, bottom=1, left=2)         \u2502 
+\u2502 \u2502               height = 2                                                 \u2502 
+\u2502 \u2502                inner = Style(background=Color(21, 19, 28))               \u2502 
+\u2502 \u2502          native_ansi = False                                             \u2502 
+\u2502 \u2502              opacity = 1.0                                               \u2502 
+\u2502 \u2502                outer = Style(background=Color(14, 12, 18))               \u2502 
+\u2502 \u2502       outline_bottom = ''                                                \u2502 
+\u2502 \u2502 outline_bottom_color = Color(0, 255, 0)                                  \u2502 
+\u2502 \u2502         outline_left = ''                                                \u2502 
+\u2502 \u2502   outline_left_color = Color(0, 255, 0)                                  \u2502 
+\u2502 \u2502        outline_right = ''                                                \u2502 
+\u2502 \u2502  outline_right_color = Color(0, 255, 0)                                  \u2502 
+\u2502 \u2502          outline_top = ''                                                \u2502 
+\u2502 \u2502    outline_top_color = Color(0, 255, 0)                                  \u2502 
+\u2502 \u2502           pad_bottom = 0                                                 \u2502 
+\u2502 \u2502             pad_left = 2                                                 \u2502 
+\u2502 \u2502            pad_right = 2                                                 \u2502 
+\u2502 \u2502              pad_top = 0                                                 \u2502 
+\u2502 \u2502              padding = Spacing(top=0, right=2, bottom=0, left=2)         \u2502 
+\u2502 \u2502  render_content_line = <bound method Widget.render_line of               \u2502 
+\u2502 \u2502                        SynapseHeader(id='app-header')>                   \u2502 
+\u2502 \u2502                 self = <StylesCache width=132>                           \u2502 
+\u2502 \u2502                 size = Size(width=132, height=2)                         \u2502 
+\u2502 \u2502               styles = RenderStyles(                                     \u2502 
+\u2502 \u2502                        \u2502   SynapseHeader(id='app-header'),               \u2502 
+\u2502 \u2502                        \u2502   auto_color=False,                             \u2502 
+\u2502 \u2502                        \u2502   color=Color(239, 233, 224),                   \u2502 
+\u2502 \u2502                        \u2502   background=Color(21, 19, 28),                 \u2502 
+\u2502 \u2502                        \u2502   padding=Spacing(                              \u2502 
+\u2502 \u2502                        \u2502   \u2502   top=0,                                    \u2502 
+\u2502 \u2502                        \u2502   \u2502   right=2,                                  \u2502 
+\u2502 \u2502                        \u2502   \u2502   bottom=0,                                 \u2502 
+\u2502 \u2502                        \u2502   \u2502   left=2                                    \u2502 
+\u2502 \u2502                        \u2502   ),                                            \u2502 
+\u2502 \u2502                        \u2502   border_bottom=('solid', Color(38, 34, 48)),   \u2502 
+\u2502 \u2502                        \u2502   height=Scalar(                                \u2502 
+\u2502 \u2502                        \u2502   \u2502   value=2.0,                                \u2502 
+\u2502 \u2502                        \u2502   \u2502   unit=<Unit.CELLS: 1>,                     \u2502 
+\u2502 \u2502                        \u2502   \u2502   percent_unit=<Unit.WIDTH: 4>              \u2502 
+\u2502 \u2502                        \u2502   ),                                            \u2502 
+\u2502 \u2502                        \u2502   dock='top',                                   \u2502 
+\u2502 \u2502                        \u2502   scrollbar_color=Color(0, 48, 84),             \u2502 
+\u2502 \u2502                        \u2502   scrollbar_color_hover=Color(0, 60, 106),      \u2502 
+\u2502 \u2502                        \u2502   scrollbar_color_active=Color(1, 120, 212),    \u2502 
+\u2502 \u2502                        \u2502   scrollbar_corner_color=Color(0, 0, 0),        \u2502 
+\u2502 \u2502                        \u2502   scrollbar_background=Color(0, 0, 0),          \u2502 
+\u2502 \u2502                        \u2502   scrollbar_background_hover=Color(0, 0, 0),    \u2502 
+\u2502 \u2502                        \u2502   scrollbar_background_active=Color(0, 0, 0),   \u2502 
+\u2502 \u2502                        \u2502   scrollbar_size_vertical=2,                    \u2502 
+\u2502 \u2502                        \u2502   scrollbar_size_horizontal=1,                  \u2502 
+\u2502 \u2502                        \u2502   link_color=Color(255, 255, 255, a=0.87),      \u2502 
+\u2502 \u2502                        \u2502   auto_link_color=True,                         \u2502 
+\u2502 \u2502                        \u2502   link_background=Color(0, 0, 0, a=0),          \u2502 
+\u2502 \u2502                        \u2502   link_style=Style(underline=True),             \u2502 
+\u2502 \u2502                        \u2502   link_color_hover=Color(                       \u2502 
+\u2502 \u2502                        \u2502   \u2502   255,                                      \u2502 
+\u2502 \u2502                        \u2502   \u2502   255,                                      \u2502 
+\u2502 \u2502                        \u2502   \u2502   255,                                      \u2502 
+\u2502 \u2502                        \u2502   \u2502   a=0.87                                    \u2502 
+\u2502 \u2502                        \u2502   ),                                            \u2502 
+\u2502 \u2502                        \u2502   auto_link_color_hover=True,                   \u2502 
+\u2502 \u2502                        \u2502   link_background_hover=Color(1, 120, 212),     \u2502 
+\u2502 \u2502                        \u2502   link_style_hover=Style(                       \u2502 
+\u2502 \u2502                        \u2502   \u2502   bold=True,                                \u2502 
+\u2502 \u2502                        \u2502   \u2502   underline=False                           \u2502 
+\u2502 \u2502                        \u2502   )                                             \u2502 
+\u2502 \u2502                        )                                                 \u2502 
+\u2502 \u2502                width = 132                                               \u2502 
+\u2502 \u2502                    y = 0                                                 \u2502 
+\u2502 \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f 
+\u2502                                                                              
+\u2502 c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\widget 
+\u2502 .py:4263 in render_line                                                      
+\u2502                                                                              
+\u2502   4260 \u2502   \u2502   \u2502   return Strip.blank(self.size.width, self.visual_style.ric 
+\u2502   4261 \u2502   \u2502                                                                 
+\u2502   4262 \u2502   \u2502   if self._dirty_regions:                                       
+\u2502 \u2771 4263 \u2502   \u2502   \u2502   self._render_content()                                    
+\u2502   4264 \u2502   \u2502   try:                                                          
+\u2502   4265 \u2502   \u2502   \u2502   line = self._render_cache.lines[y]                        
+\u2502   4266 \u2502   \u2502   except IndexError:                                            
+\u2502                                                                              
+\u2502 \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 locals \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e                                    
+\u2502 \u2502 self = SynapseHeader(id='app-header') \u2502                                    
+\u2502 \u2502    y = 0                              \u2502                                    
+\u2502 \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f                                    
+\u2502                                                                              
+\u2502 c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\widget 
+\u2502 .py:4245 in _render_content                                                  
+\u2502                                                                              
+\u2502   4242 \u2502   def _render_content(self) -> None:                                
+\u2502   4243 \u2502   \u2502   """Render all lines."""                                       
+\u2502   4244 \u2502   \u2502   width, height = self.size                                     
+\u2502 \u2771 4245 \u2502   \u2502   visual = self._render()                                       
+\u2502   4246 \u2502   \u2502   strips = Visual.to_strips(self, visual, width, height, self.v 
+\u2502   4247 \u2502   \u2502   self._render_cache = _RenderCache(self.size, strips)          
+\u2502   4248 \u2502   \u2502   self._dirty_regions.clear()                                   
+\u2502                                                                              
+\u2502 \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 locals \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e                                  
+\u2502 \u2502 height = 1                              \u2502                                  
+\u2502 \u2502   self = SynapseHeader(id='app-header') \u2502                                  
+\u2502 \u2502  width = 128                            \u2502                                  
+\u2502 \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f                                  
+\u2502                                                                              
+\u2502 c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\widget 
+\u2502 .py:4471 in _render                                                          
+\u2502                                                                              
+\u2502   4468 \u2502   \u2502   if cached_visual is not None:                                 
+\u2502   4469 \u2502   \u2502   \u2502   assert isinstance(cached_visual, Visual)                  
+\u2502   4470 \u2502   \u2502   \u2502   return cached_visual                                      
+\u2502 \u2771 4471 \u2502   \u2502   visual = visualize(self, self.render(), markup=self._render_m 
+\u2502   4472 \u2502   \u2502   self._layout_cache[cache_key] = visual                        
+\u2502   4473 \u2502   \u2502   return visual                                                 
+\u2502   4474                                                                       
+\u2502                                                                              
+\u2502 \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 locals \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e                           
+\u2502 \u2502     cache_key = '_render.visual'               \u2502                           
+\u2502 \u2502 cached_visual = None                           \u2502                           
+\u2502 \u2502          self = SynapseHeader(id='app-header') \u2502                           
+\u2502 \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f                           
+\u2502                                                                              
+\u2502 c:\Users\Acer\Desktop\project\synapse\synapse\tui\widgets\header_bar.py:61   
+\u2502 in render                                                                    
+\u2502                                                                              
+\u2502   58 \u2502   \u2502   # \u2500\u2500 Line 1: brand chip + wordmark + tagline \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 
+\u2502   59 \u2502   \u2502   line1 = Text()                                                  
+\u2502   60 \u2502   \u2502   line1.append(" \u26a1 ", style=f"bold {theme.ON_ACCENT} on {theme.A 
+\u2502 \u2771 61 \u2502   \u2502   line1.append_text(_wordmark_gradient())                         
+\u2502   62 \u2502   \u2502   line1.append("  unified agent orchestration", style=f"dim {them 
+\u2502   63 \u2502   \u2502                                                                   
+\u2502   64 \u2502   \u2502   # \u2500\u2500 Right cluster (line 1) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 
+\u2502                                                                              
+\u2502 \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 locals \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e         
+\u2502 \u2502 line1 = <text ' \u26a1 ' [Span(0, 3, 'bold #1c0f07 on #d97757')] ''> \u2502         
+\u2502 \u2502   out = <text '' [] ''>                                          \u2502         
+\u2502 \u2502  self = SynapseHeader(id='app-header')                           \u2502         
+\u2502 \u2502  tick = 9                                                        \u2502         
+\u2502 \u2502 width = 128                                                      \u2502         
+\u2502 \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f         
+\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+NameError: name '_wordmark_gradient' is not defined
+Traceback (most recent call last):
+  File "c:\Users\Acer\Desktop\project\synapse\_tui_smoke.py", line 53, in <module>
+    asyncio.run(main())
+  File "C:\Users\Acer\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Acer\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Acer\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\_tui_smoke.py", line 18, in main
+    async with app.run_test(size=(132, 44)) as pilot:
+  File "C:\Users\Acer\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\app.py", line 2218, in run_test
+    raise self._exception
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\timer.py", line 189, in _tick
+    await invoke(self._callback)
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_callback.py", line 96, in invoke
+    return await _invoke(callback, *params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_callback.py", line 56, in _invoke
+    result = callback(*params[:parameter_count])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\screen.py", line 1255, in _on_timer_update
+    self._compositor_refresh()
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\screen.py", line 1221, in _compositor_refresh
+    update = self._compositor.render_update(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_compositor.py", line 1116, in render_update
+    return self.render_full_update(simplify=simplify)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_compositor.py", line 1152, in render_full_update
+    chops = self._render_chops(crop, lambda y: True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_compositor.py", line 1225, in _render_chops
+    for region, clip, strips in renders:
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_compositor.py", line 1071, in _get_renders
+    widget.render_lines(
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\widget.py", line 4285, in render_lines
+    strips = self._styles_cache.render_widget(self, crop)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_styles_cache.py", line 116, in render_widget
+    strips = self.render(
+             ^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_styles_cache.py", line 221, in render
+    strip = render_line(
+            ^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\_styles_cache.py", line 455, in render_line
+    line = render_content_line(y - gutter.top)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\widget.py", line 4263, in render_line
+    self._render_content()
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\widget.py", line 4245, in _render_content
+    visual = self._render()
+             ^^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\.venv\Lib\site-packages\textual\widget.py", line 4471, in _render
+    visual = visualize(self, self.render(), markup=self._render_markup)
+                             ^^^^^^^^^^^^^
+  File "c:\Users\Acer\Desktop\project\synapse\synapse\tui\widgets\header_bar.py", line 61, in render
+    line1.append_text(_wordmark_gradient())
+                      ^^^^^^^^^^^^^^^^^^
+NameError: name '_wordmark_gradient' is not defined

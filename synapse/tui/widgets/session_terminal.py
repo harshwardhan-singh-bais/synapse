@@ -14,14 +14,16 @@ from textual.reactive import reactive
 from textual.widgets import Log, Static
 from rich.text import Text
 
+from .. import theme
+
 
 _PLACEHOLDER = (
-    "  No session selected.\n\n"
-    "  Select a session from the sidebar to view its terminal output.\n"
-    "  Use [bold cyan]n[/] to create a new session."
+    "  [bold #ff8a5c]❯[/] [bold #efe9e0]no session selected[/]\n\n"
+    "  [dim #968ba2]select a session from the sidebar to peer into its terminal.[/]\n"
+    "  [dim #968ba2]press [/][bold #ffd166]n[/][dim] to mint a new session.[/]"
 )
 
-_NO_OUTPUT = "  No terminal output captured yet for this session."
+_NO_OUTPUT = "  [dim #5f566c]no terminal output captured yet for this session.[/]"
 
 TMUX_SOCKET = "synapse"
 
@@ -70,7 +72,8 @@ class SessionTerminal(Static):
         if session_id is None:
             log.write(_PLACEHOLDER)
         else:
-            log.write(f"  Loading terminal output for session {session_id[:8]}…\n")
+            log.write(f"  [bold #5fd4ff]⠋[/] [bold #c792ea]loading[/] terminal output for "
+                      f"[bold #ffd166]{session_id[:8]}[/]…\n")
             # Resolve backend_id from DB
             try:
                 db = self.app.db  # type: ignore[attr-defined]
@@ -123,25 +126,25 @@ class SessionTerminal(Static):
 
             if session_row:
                 s = dict(session_row)
-                status = s.get("status") or "unknown"
+                status = (s.get("status") or "unknown").lower()
                 agent = s.get("agent") or "?"
                 name = s.get("name") or "?"
                 cwd = s.get("cwd") or "?"
+                session_id = (s.get("id") or self.session_id or "?")[:8]
 
                 # Status color
-                status_style = {
-                    "idle": "dim",
-                    "working": "bright_green",
-                    "blocked": "bright_red",
-                    "done": "bright_cyan",
-                    "error": "bright_red",
-                }.get(status, "white")
+                status_style = theme.STATUS_FG.get(status, theme.TEXT)
+                status_bg = theme.STATUS_BG.get(status, "#18151f")
+                agent_color = theme.agent_color(agent)
 
                 log_widget.write(
-                    f"  Session: {name}  [{status_style}]{status}[/{status_style}]\n"
-                    f"  Agent: {agent}  CWD: {cwd}\n"
-                    f"  Backend: {self.backend_id or 'none'}\n"
-                    f"  {'─' * 50}\n"
+                    f"  [bold #ff8a5c]❯[/] [bold #efe9e0]{name}[/]"
+                    f"  [{status_style} on {status_bg}]{status.upper():^10}[/]\n"
+                    f"  [dim #968ba2]agent [/][bold {agent_color}]{agent}[/]"
+                    f"  [dim #5f566c]·  cwd:[/] [dim #968ba2]{cwd}[/]\n"
+                    f"  [dim #968ba2]backend [/][bold #5fd4ff]{self.backend_id or 'none'}[/]"
+                    f"  [dim #5f566c]·  id:[/] [bold #c792ea]{session_id}[/]\n"
+                    f"  [dim]{'░' * 54}[/]\n"
                 )
 
             if event_rows:
@@ -155,19 +158,42 @@ class SessionTerminal(Static):
                         ev_type = row["type"]
 
                         if ev_type == "message":
-                            msg = data.get("body", str(data))[:120]
-                            log_widget.write(f"  [{t}] 💬 {msg}")
+                            msg = data.get("body", str(data))[:110]
+                            log_widget.write(
+                                f"  [dim #5f566c][{t}][/] [bold #ff5d8f]💬[/] "
+                                f"[#e6ddf0]{msg}[/]"
+                            )
                         elif ev_type == "status":
                             st = data.get("status", str(data))
-                            log_widget.write(f"  [{t}] ● STATUS → {st}")
+                            st = (str(st)).lower()
+                            st_fg = theme.STATUS_FG.get(st, "#c792ea")
+                            log_widget.write(
+                                f"  [dim #5f566c][{t}][/] [bold {st_fg}]◉[/]"
+                                f" [{st_fg}]STATE[/] → [bold {st_fg}]{st}[/]"
+                            )
                         elif ev_type == "file_edit":
                             fp = data.get("file_path", "?")
-                            log_widget.write(f"  [{t}] ✎ EDIT    {fp}")
+                            log_widget.write(
+                                f"  [dim #5f566c][{t}][/] [bold #ffd166]✎[/]"
+                                f" [#ffd166]EDIT[/]    [dim #968ba2]{fp}[/]"
+                            )
                         elif ev_type == "tool_call":
                             tool = data.get("tool", "?")
-                            log_widget.write(f"  [{t}] ⚙ TOOL    {tool}")
+                            log_widget.write(
+                                f"  [dim #5f566c][{t}][/] [bold #5fd4ff]⚙[/]"
+                                f" [#5fd4ff]TOOL[/]    [bold #5fd4ff]{tool}[/]"
+                            )
+                        elif ev_type == "collision":
+                            msg = data.get("body", str(data))[:110]
+                            log_widget.write(
+                                f"  [dim #5f566c][{t}][/] [bold #ff5d6b]⚠[/]"
+                                f" [#ff5d6b]COLLISION[/] {msg}"
+                            )
                         else:
-                            log_widget.write(f"  [{t}] {ev_type}: {str(data)[:80]}")
+                            log_widget.write(
+                                f"  [dim #5f566c][{t}][/] [bold #c792ea]{ev_type}[/]: "
+                                f"[dim #968ba2]{str(data)[:80]}[/]"
+                            )
                     except Exception:
                         continue
             else:

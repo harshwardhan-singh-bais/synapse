@@ -14,6 +14,9 @@ from textual.reactive import reactive
 from textual.widgets import DataTable, Label, Log, ProgressBar, Static
 from rich.text import Text
 
+from .. import theme
+from ..ascii import rainbow_bar, spinner
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -47,11 +50,11 @@ STATUS_GLYPHS: dict[str, str] = {
 }
 
 STATUS_STYLES: dict[str, str] = {
-    "running":   "bright_green",
-    "completed": "bright_cyan",
-    "failed":    "bright_red",
-    "paused":    "yellow",
-    "pending":   "dim",
+    "running":   theme.GREEN,
+    "completed": theme.CYAN,
+    "failed":    theme.RED,
+    "paused":    theme.YELLOW,
+    "pending":   theme.TEXT_FAINT,
 }
 
 
@@ -82,9 +85,9 @@ class RunCard(Static):
         stages = self._stages
         cycles = self._cycles
 
-        status = run.get("status") or "unknown"
+        status = (run.get("status") or "unknown").lower()
         glyph = STATUS_GLYPHS.get(status, "?")
-        style = STATUS_STYLES.get(status, "white")
+        style = STATUS_STYLES.get(status, theme.TEXT_DIM)
         mode = (run.get("mode") or "goal").upper()
         goal = (run.get("goal") or "No goal specified")
         run_id_short = (run.get("id") or "?")[:8]
@@ -96,15 +99,16 @@ class RunCard(Static):
         total_exch = sum((c.get("exchanges") or 0) for c in cycles)
 
         text = Text()
-        text.append(f" {glyph} ", style=style)
-        text.append(f"[{mode}] ", style="bold " + style)
-        text.append(f"{run_id_short}  ", style="dim")
-        text.append(f"elapsed: {elapsed}\n", style="dim")
+        # ── Corner decoration + status ───────────────────────────────────────
+        text.append("┌", style=f"bold {style}")
+        text.append(f" {glyph} [{mode}] {run_id_short} ", style=f"bold {style}")
+        text.append("┐", style=f"bold {style}")
+        text.append(f"  ⏱ {elapsed}", style=f"dim {theme.TEXT_FAINT}")
+        text.append("\n")
+        text.append(f"│ {goal[:62]}", style="italic #efe9e0")
+        text.append("\n")
 
-        # Goal (truncated)
-        text.append(f"   {goal[:70]}\n", style="italic")
-
-        # Stage progress
+        # ── Stage progress (rainbow bar) ────────────────────────────────────
         total_stages = len(stages)
         done_stages = sum(
             1 for s in stages if (s.get("status") or "") in ("completed", "failed")
@@ -115,22 +119,23 @@ class RunCard(Static):
 
         if total_stages:
             pct = int(done_stages / total_stages * 100)
-            bar_filled = pct // 5
-            bar = "█" * bar_filled + "░" * (20 - bar_filled)
-            text.append(f"\n   Stages  ", style="dim")
-            text.append(f"[{bar}]", style="bright_green" if status == "running" else "bright_cyan")
-            text.append(f" {done_stages}/{total_stages}  {pct}%\n", style="bold")
+            bar = rainbow_bar(pct, 16)
+            text.append(f"│ {done_stages:>2}/{total_stages:<2}", style=f"bold {theme.CYAN}")
+            text.append(f" {bar} \n", style="bold")
 
             if running_stage:
                 stage_name = running_stage.get("name") or f"Stage {running_stage.get('stage_index', '?')}"
-                text.append(f"   ▶ {stage_name}\n", style="bright_green")
+                text.append(f"│ ▶ {stage_name}", style=f"bold {theme.GREEN}")
+                text.append("  (click to follow)", style=f"dim {theme.TEXT_FAINT}")
+            text.append("\n")
 
-        # Cost + exchanges
-        text.append(f"\n   API: ", style="dim")
-        text.append(f"{_fmt_cost(total_api)}", style="#f85149")
-        text.append(f"   Virtual: ", style="dim")
-        text.append(f"{_fmt_cost(total_virt)}", style="#8b949e")
-        text.append(f"   Exchanges: {total_exch}", style="dim")
+        # ── Cost + exchanges ─────────────────────────────────────────────────
+        text.append("└", style=f"bold {style}")
+        text.append(" API ", style=f"dim {theme.TEXT_FAINT}")
+        text.append(_fmt_cost(total_api), style=f"bold {theme.ORANGE}")
+        text.append(f"  VIRT {_fmt_cost(total_virt)}", style=f"bold {theme.PURPLE}")
+        text.append(f"  ⇄ {total_exch}", style=f"bold {theme.CYAN}")
+        text.append(" ┘", style=f"bold {style}")
 
         return text
 
@@ -206,12 +211,13 @@ class OrchestrationDashboard(Static):
 
     def compose(self) -> ComposeResult:
         with Vertical():
-            yield Label("  ⚡ ORCHESTRATION DASHBOARD", classes="dashboard-title")
+            yield Label("⚡ RUNS DASHBOARD", id="dash-title", classes="dashboard-title")
             with Horizontal(id="dash-top"):
                 with ScrollableContainer(id="runs-panel"):
                     yield Label("  Active Runs", classes="panel-subtitle")
                     yield Static(id="runs-content")
                 with ScrollableContainer(id="feed-panel"):
+                    yield Label("  Verification Feed", classes="panel-subtitle")
                     yield Static(id="feed-content")
             with ScrollableContainer(id="stages-panel"):
                 yield Label("  Stage Breakdown", classes="panel-subtitle")
@@ -237,6 +243,9 @@ class OrchestrationDashboard(Static):
             "Run", "Bucket", "Model", "Amount", "Tokens In", "Tokens Out"
         )
 
+        self._title_tick = 0
+        self._animate_title()
+        self.set_interval(0.3, self._animate_title)
         self.refresh_data()
         self.set_interval(3.0, self.refresh_data)
 
@@ -266,6 +275,17 @@ class OrchestrationDashboard(Static):
         except Exception:
             pass
 
+    def _animate_title(self) -> None:
+        self._title_tick += 1
+        title = self.query_one("#dash-title", Label)
+        text = Text()
+        text.append(f" {spinner('braille', self._title_tick)} ", style=f"bold {theme.ACCENT_HI}")
+        text.append("⚡ RUNS ", style=f"bold {theme.YELLOW}")
+        stops = theme.GRADIENT_RUN
+        for idx, ch in enumerate("DASHBOARD"):
+            text.append(ch, style=f"bold {stops[idx % len(stops)]}")
+        title.update(text)
+
     def _render_runs(
         self, runs: list[dict], stages: list[dict], cycles: list[dict]
     ) -> None:
@@ -274,9 +294,8 @@ class OrchestrationDashboard(Static):
         if not runs:
             runs_content.update(
                 Text(
-                    "\n  No orchestration runs yet.\n\n"
-                    "  Use  synapse orchestrate goal  to start a run.\n",
-                    style="dim italic",
+                    "\n  [dim]no orchestration runs yet…[/]\n\n"
+                    "  [dim]use [/][bold #ffd166]synapse orchestrate goal[/][dim] to start a run.[/]\n",
                 )
             )
             return
@@ -287,19 +306,19 @@ class OrchestrationDashboard(Static):
             run_stages = [s for s in stages if s.get("run_id") == run_id]
             run_cycles = [c for c in cycles if c.get("run_id") == run_id]
 
-            status = run.get("status") or "unknown"
+            status = (run.get("status") or "unknown").lower()
             glyph = STATUS_GLYPHS.get(status, "?")
-            style = STATUS_STYLES.get(status, "white")
+            style = STATUS_STYLES.get(status, theme.TEXT_DIM)
             mode = (run.get("mode") or "goal").upper()
-            goal = (run.get("goal") or "No goal")[:60]
+            goal = (run.get("goal") or "No goal")[:54]
             elapsed = _elapsed(run.get("started_at"))
             run_id_short = run_id[:8]
 
-            text.append(f"\n  {glyph} ", style=style)
-            text.append(f"[{mode}] ", style="bold " + style)
-            text.append(f"{run_id_short}", style="dim")
-            text.append(f"  ⏱ {elapsed}\n", style="dim")
-            text.append(f"    {goal}\n", style="italic")
+            text.append(f"\n  {glyph} ", style=f"bold {style}")
+            text.append(f"[{mode}] ", style=f"bold {style}")
+            text.append(f"{run_id_short}", style=f"dim {theme.TEXT_FAINT}")
+            text.append(f"  ⏱ {elapsed}\n", style=f"dim {theme.TEXT_FAINT}")
+            text.append(f"    {goal}\n", style="italic #efe9e0")
 
             total_stages = len(run_stages)
             done_stages = sum(
@@ -307,10 +326,8 @@ class OrchestrationDashboard(Static):
             )
             if total_stages:
                 pct = int(done_stages / total_stages * 100)
-                bar_filled = pct // 4
-                bar = "█" * bar_filled + "░" * (25 - bar_filled)
-                text.append(f"    [{bar}] ", style="bright_green" if status == "running" else "bright_cyan")
-                text.append(f"{done_stages}/{total_stages}  {pct}%\n", style="bold")
+                bar = rainbow_bar(pct, 22)
+                text.append(f"    {bar}\n", style="bold")
 
             running_stage = next(
                 (s for s in run_stages if (s.get("status") or "") == "running"), None
@@ -318,16 +335,18 @@ class OrchestrationDashboard(Static):
             if running_stage:
                 stage_name = running_stage.get("name") or f"Stage {running_stage.get('stage_index', '?')}"
                 cycle_count = len([c for c in run_cycles if c.get("stage_id") == running_stage.get("id")])
-                text.append(f"    ▶ {stage_name}", style="bright_green")
-                text.append(f"  cycle #{cycle_count}\n", style="dim bright_green")
+                text.append(f"    ▶ {stage_name}", style=f"bold {theme.GREEN}")
+                text.append(f"  cycle #{cycle_count}\n", style=f"dim {theme.GREEN}")
 
             total_api = sum((c.get("api_cost_usd") or 0.0) for c in run_cycles)
             total_virt = sum((c.get("virtual_cost_usd") or 0.0) for c in run_cycles)
-            text.append(f"    API: ", style="dim")
-            text.append(f"{_fmt_cost(total_api)}", style="#f85149")
-            text.append(f"  Virtual: ", style="dim")
-            text.append(f"{_fmt_cost(total_virt)}\n", style="#8b949e")
-            text.append("  " + "─" * 55 + "\n", style="dim")
+            total_exch = sum((c.get("exchanges") or 0) for c in run_cycles)
+            text.append(f"    API ", style=f"dim {theme.TEXT_FAINT}")
+            text.append(_fmt_cost(total_api), style=f"bold {theme.ORANGE}")
+            text.append(f"  VIRT ", style=f"dim {theme.TEXT_FAINT}")
+            text.append(_fmt_cost(total_virt), style=f"bold {theme.PURPLE}")
+            text.append(f"  ⇄ {total_exch}\n", style=f"bold {theme.CYAN}")
+            text.append("    " + "░" * 55 + "\n", style=f"dim {theme.TEXT_FAINT}")
 
         runs_content.update(text)
 
@@ -335,8 +354,9 @@ class OrchestrationDashboard(Static):
         feed_content = self.query_one("#feed-content", Static)
 
         text = Text()
-        text.append("  VERIFICATION FEED\n", style="bold #7ee787")
-        text.append("  " + "─" * 40 + "\n", style="dim")
+        text.append(f" {spinner('braille', self._title_tick)} ", style=f"bold {theme.ACCENT_HI}")
+        text.append("LIVE VERIFICATION FEED\n", style=f"bold {theme.GREEN}")
+        text.append("  " + "░" * 46 + "\n", style=f"dim {theme.TEXT_FAINT}")
 
         if not cycles:
             text.append("  No cycles recorded.\n", style="dim italic")
@@ -355,19 +375,17 @@ class OrchestrationDashboard(Static):
             summary = (c.get("summary") or "")[:45]
 
             if not finished:
-                text.append(f"  ⟳  [{run_id_short}] Cycle {cycle_idx}", style="bright_green")
-                text.append(": running…\n", style="dim")
+                text.append(f"  ⟳  [{run_id_short}] Cycle {cycle_idx}", style=f"bold {theme.GREEN}")
+                text.append(": running…\n", style=f"dim {theme.TEXT_FAINT}")
             elif success:
-                text.append(f"  ✅ [{run_id_short}] Cycle {cycle_idx}", style="bright_green bold")
-                text.append(": ACCEPTED", style="bright_green bold")
+                text.append(f"  ✅ [{run_id_short}] Cycle {cycle_idx}: ACCEPTED", style=f"bold {theme.GREEN}")
                 if summary:
-                    text.append(f"\n      {summary}", style="dim")
+                    text.append(f"\n        {summary}", style=f"dim {theme.TEXT_DIM}")
                 text.append("\n")
             else:
-                text.append(f"  ❌ [{run_id_short}] Cycle {cycle_idx}", style="bright_red bold")
-                text.append(": REJECTED", style="bright_red bold")
+                text.append(f"  ❌ [{run_id_short}] Cycle {cycle_idx}: REJECTED", style=f"bold {theme.RED}")
                 if summary:
-                    text.append(f"\n      {summary}", style="dim #f85149")
+                    text.append(f"\n        {summary}", style=f"dim {theme.RED}")
                 text.append("\n")
 
         feed_content.update(text)
@@ -436,8 +454,8 @@ class OrchestrationDashboard(Static):
             tokens_in = row.get("tokens_in") or 0
             tokens_out = row.get("tokens_out") or 0
 
-            bucket_style = "#f85149" if bucket == "api" else "#8b949e"
-            amount_text = Text(f"${amount:.4f}", style=bucket_style)
+            bucket_style = theme.ORANGE if bucket == "api" else theme.PURPLE
+            amount_text = Text(f"${amount:.4f}", style=f"bold {bucket_style}")
 
             table.add_row(
                 f"{mode}/{run_short}",

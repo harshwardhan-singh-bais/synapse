@@ -13,7 +13,6 @@ from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
 from textual.widgets import (
     Footer,
-    Header,
     Label,
     Static,
     TabbedContent,
@@ -25,60 +24,12 @@ from ..core.paths import ensure_dirs
 from ..db.database import Database
 from .screens.new_session_screen import NewSessionScreen
 from .widgets.agent_mailbox import AgentMailbox
+from .widgets.header_bar import SynapseHeader
+from .widgets.loaders import BootScreen, LoaderShowcaseScreen
 from .widgets.orchestration_dashboard import OrchestrationDashboard
+from .widgets.prompt_bar import PromptBar
 from .widgets.session_sidebar import SessionSidebar
 from .widgets.session_terminal import SessionTerminal
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Status bar widget
-# ─────────────────────────────────────────────────────────────────────────────
-
-class StatusBar(Static):
-    """Bottom status bar showing DB path, session count, and clock."""
-
-    DEFAULT_CSS = """
-    StatusBar {
-        background: #0d1117;
-        color: #484f58;
-        height: 1;
-        padding: 0 1;
-        dock: bottom;
-        border-top: solid #21262d;
-    }
-    """
-
-    def __init__(self, db_path: Path, **kwargs) -> None:
-        super().__init__(**kwargs)
-        self._db_path = db_path
-
-    def on_mount(self) -> None:
-        self.set_interval(1.0, self._tick)
-        self._tick()
-
-    def _tick(self) -> None:
-        try:
-            db = self.app.db  # type: ignore[attr-defined]
-            session_count = db.fetchone(
-                "SELECT COUNT(*) as c FROM sessions WHERE deleted_at IS NULL"
-            )
-            run_count = db.fetchone(
-                "SELECT COUNT(*) as c FROM runs WHERE status = 'running'"
-            )
-            sessions = session_count["c"] if session_count else 0
-            runs = run_count["c"] if run_count else 0
-        except Exception:
-            sessions, runs = 0, 0
-
-        clock = time.strftime("%H:%M:%S")
-        db_short = str(self._db_path).replace(str(Path.home()), "~")
-        self.update(
-            f" ⚡ Synapse  "
-            f"│  sessions: {sessions}  "
-            f"│  active runs: {runs}  "
-            f"│  db: {db_short}  "
-            f"│  {clock} "
-        )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -156,14 +107,14 @@ class PerfHUD(Static):
         secs = int(elapsed % 60)
 
         lines = [
-            "  ⚡ Perf HUD",
-            "  ─────────────────",
-            f"  Sessions:    {self._session_count}",
-            f"  Active Runs: {self._run_count}",
-            f"  Messages:    {self._message_count}",
-            f"  Uptime:      {hours:02d}:{mins:02d}:{secs:02d}",
-            "  ─────────────────",
-            "  Press F6 to close",
+            "  [bold #ffd166]⚡ PERF HUD[/]",
+            "  [dim #5f566c]────────────────────────[/]",
+            f"  [dim #968ba2]Sessions:[/]    [bold #5fd4ff]{self._session_count}[/]",
+            f"  [dim #968ba2]Active Runs:[/] [bold #3ddc97]{self._run_count}[/]",
+            f"  [dim #968ba2]Messages:[/]    [bold #ff5d8f]{self._message_count}[/]",
+            f"  [dim #968ba2]Uptime:[/]      [bold #c792ea]{hours:02d}:{mins:02d}:{secs:02d}[/]",
+            "  [dim #5f566c]────────────────────────[/]",
+            "  [dim #5f566c]Press F6 to close[/]",
         ]
         self.update("\n".join(lines))
 
@@ -172,8 +123,8 @@ class SynapseApp(App):
     """Main Synapse TUI application."""
 
     CSS_PATH = Path(__file__).parent / "synapse.tcss"
-    TITLE = "⚡ Synapse"
-    SUB_TITLE = "Unified Agent Orchestration"
+    TITLE = "SYN·APSE"
+    SUB_TITLE = "unified agent orchestration"
     MOUSE_CONTROL = True  # Enable mouse support
 
     BINDINGS = [
@@ -186,6 +137,7 @@ class SynapseApp(App):
         Binding("1", "show_tab('sessions')", "Sessions", show=True),
         Binding("2", "show_tab('orchestration')", "Runs", show=True),
         Binding("3", "show_tab('mailbox')", "Mailbox", show=True),
+        Binding("l", "show_loader_showcase", "Showcase", show=True),
         Binding("tab", "focus_next", "Next Panel", show=False),
         Binding("shift+tab", "focus_previous", "Prev Panel", show=False),
         Binding("f5", "refresh_all", "Refresh", show=False),
@@ -206,7 +158,11 @@ class SynapseApp(App):
     # ─────────────────────────────────────────────────────────────────────────
 
     def compose(self) -> ComposeResult:
-        yield Header()
+        yield SynapseHeader(
+            self.config.db_path,
+            default_agent=self.config.default_agent,
+            id="app-header",
+        )
 
         with Horizontal(id="app-layout"):
             # Left sidebar
@@ -215,17 +171,21 @@ class SynapseApp(App):
             # Main content
             with Vertical(id="main-content"):
                 with TabbedContent(id="main-tabs", initial="sessions"):
-                    with TabPane("  Sessions  ", id="sessions"):
+                    with TabPane("  ⚡ Sessions  ", id="sessions"):
                         yield SessionTerminal(id="session-terminal")
 
-                    with TabPane("  Runs  ", id="orchestration"):
+                    with TabPane("  ⟳ Runs  ", id="orchestration"):
                         yield OrchestrationDashboard(id="orch-dashboard")
 
-                    with TabPane("  Mailbox  ", id="mailbox"):
+                    with TabPane("  📬 Mailbox  ", id="mailbox"):
                         yield AgentMailbox(id="agent-mailbox")
 
         yield PerfHUD(id="perf-hud")
-        yield StatusBar(self.config.db_path)
+        yield PromptBar(
+            self.config.db_path,
+            default_agent=self.config.default_agent,
+            effort=self.config.effort,
+        )
         yield Footer()
 
     # ─────────────────────────────────────────────────────────────────────────
@@ -233,13 +193,21 @@ class SynapseApp(App):
     # ─────────────────────────────────────────────────────────────────────────
 
     def on_mount(self) -> None:
+        # ASCII boot sequence: show once, then the main screen settles in.
+        self.push_screen(BootScreen())
+        self.set_timer(3.4, self._post_boot)
+        # Poll for new collisions and completed runs
+        self.set_interval(5.0, self._poll_alerts)
+
+    def _post_boot(self) -> None:
+        if isinstance(self.screen, BootScreen):
+            self.pop_screen()
         self.notify(
-            "Welcome to Synapse ⚡  Press [bold]n[/] to create your first session.",
+            "Welcome to [bold #ff8a5c]SYN·APSE[/] ⚡  press [bold #ffd166]n[/] to create "
+            "a session · [bold #ffd166]l[/] for the loader showcase",
             severity="information",
             timeout=4,
         )
-        # Poll for new collisions and completed runs
-        self.set_interval(5.0, self._poll_alerts)
 
     # ─────────────────────────────────────────────────────────────────────────
     # Session selection (called by sidebar)
@@ -512,6 +480,10 @@ class SynapseApp(App):
             hud.toggle()
         except Exception:
             pass
+
+    def action_show_loader_showcase(self) -> None:
+        """Open the ASCII loader showcase."""
+        self.push_screen(LoaderShowcaseScreen())
 
     async def action_quit(self) -> None:
         """Exit Synapse TUI."""

@@ -1,52 +1,73 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   Synapse TUI — Dark neon theme
-   Palette: deep charcoal bg · electric blue accent · neon green · crimson
+   SYN·APSE TUI — Claude Code premium theme
+   Warm charcoal panels · terracotta brand accent · vibrant neon statuses
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ─── Globals ─────────────────────────────────────────────────────────────── */
 
 Screen {
-    background: #0a0e14;
-    color: #e6edf3;
+    background: #0e0c12;
+    color: #efe9e0;
     layers: base overlay notifications;
 }
 
-/* ─── Header ──────────────────────────────────────────────────────────────── */
+/* ─── Header (SynapseHeader) ──────────────────────────────────────────────── */
 
-Header {
-    background: #0d1117;
-    color: #58a6ff;
-    border-bottom: solid #21262d;
-    text-style: bold;
+SynapseHeader {
+    background: #15131c;
+    color: #efe9e0;
+    dock: top;
+    height: 2;
+    padding: 0 2;
+    border-bottom: solid #262230;
 }
 
-Header > .header--title {
-    color: #58a6ff;
-    text-style: bold;
+SynapseHeader:focus {
+    border-bottom: double #d97757;
 }
 
-Header > .header--sub-title {
-    color: #484f58;
+/* ─── Prompt bar (PromptBar) ──────────────────────────────────────────────── */
+
+PromptBar {
+    background: #15131c;
+    color: #968ba2;
+    dock: bottom;
+    height: 1;
+    padding: 0 2;
+    border-top: solid #262230;
 }
 
-/* ─── Footer ──────────────────────────────────────────────────────────────── */
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
 
 Footer {
-    background: #0d1117;
-    color: #8b949e;
-    border-top: solid #21262d;
+    background: #111018;
+    color: #968ba2;
+    dock: bottom;
+    height: 1;
+    border-top: solid #262230;
 }
 
-Footer > .footer--key {
-    background: #161b22;
-    color: #58a6ff;
-    border-right: solid #21262d;
+FooterKey {
+    background: transparent;
 }
 
-Footer > .footer--description {
-    color: #6e7681;
+FooterKey > .footer-key--key {
+    background: #241d28;
+    color: #ff8a5c;
+    text-style: bold;
 }
 
+FooterKey:hover > .footer-key--key {
+    background: #d97757;
+    color: #1c0f07;
+}
+
+FooterKey > .footer-key--description {
+    color: #8d8294;
+}
+
+FooterLabel {
+    color: #5f566c;
 /* ─── Layout ──────────────────────────────────────────────────────────────── */
 
 #app-layout {
@@ -57,10 +78,11 @@ Footer > .footer--description {
 /* ─── Session Sidebar ─────────────────────────────────────────────────────── */
 
 SessionSidebar {
-    width: 28;
-    min-width: 22;
-    background: #0d1117;
-    border-right: solid #21262d;
+    width: 30;
+    min-width: 24;
+    max-width: 44;
+    background: #111018;
+    border-right: solid #262230;
     padding: 0;
     height: 1fr;
 }
@@ -70,16 +92,17 @@ SessionSidebar > Vertical {
 }
 
 SessionSidebar .sidebar-title {
-    color: #58a6ff;
+    color: #ffd166;
     text-style: bold;
     padding: 1 1;
-    border-bottom: solid #21262d;
-    background: #0d1117;
+    border-bottom: solid #262230;
+    background: #15131c;
     width: 1fr;
+    height: 3;
 }
 
 SessionSidebar .sidebar-empty {
-    color: #484f58;
+    color: #5f566c;
     margin: 2 1;
     text-style: italic;
 }
@@ -93,29 +116,29 @@ SessionSidebar ListView {
 
 SessionSidebar ListItem {
     padding: 1 1;
-    border-bottom: solid #161b22;
+    border-bottom: solid #191621;
     background: transparent;
     height: auto;
 }
 
 SessionSidebar ListItem:hover {
-    background: #161b22;
+    background: #1c1825;
 }
 
 SessionSidebar ListItem.--highlight {
-    background: #1a2233;
-    border-left: tall #58a6ff;
+    background: #241d28;
+    border-left: tall #d97757;
 }
 
 SessionSidebar ListItem.selected-item {
-    background: #1a2233;
-    border-left: tall #58a6ff;
+    background: #221c2a;
+    border-left: tall #ff8a5c;
 }
 
 /* ─── Main Content Area ───────────────────────────────────────────────────── */
 
 #main-content {
-    background: #0a0e14;
+    background: #0e0c12;
     height: 1fr;
     width: 1fr;
 }
@@ -123,68 +146,44 @@ SessionSidebar ListItem.selected-item {
 /* ─── Tabs ────────────────────────────────────────────────────────────────── */
 
 TabbedContent {
-    background: #0a0e14;
+    background: #0e0c12;
     height: 1fr;
 }
 
-TabbedContent ContentSwitcher {
-    background: #0a0e14;
+TabbedContent > ContentSwitcher {
+    background: #0e0c12;
     height: 1fr;
 }
 
 TabPane {
-    background: #0a0e14;
+    background: #0e0c12;
     padding: 0;
     height: 1fr;
 }
 
 Tabs {
-    background: #0d1117;
-    border-bottom: solid #21262d;
+    background: #15131c;
+    border-bottom: solid #262230;
 }
 
 Tabs > Tab {
-    color: #6e7681;
+    color: #7a6f88;
     padding: 0 3;
     background: transparent;
 }
 
 Tabs > Tab:hover {
-    color: #c9d1d9;
-    background: #161b22;
+    color: #efe9e0;
+    background: #1c1825;
 }
 
 Tabs > Tab.-active {
-    color: #58a6ff;
-    background: #0a0e14;
-    border-top: tall #58a6ff;
-}
-
-/* ─── Session Terminal ────────────────────────────────────────────────────── */
-
-SessionTerminal {
-    background: #090c10;
-    border: solid #21262d;
-    height: 1fr;
-}
-
-#terminal-scroll {
-    background: #090c10;
-    height: 1fr;
-    padding: 0;
-}
-
-#terminal-log {
-    background: #090c10;
-    color: #8b949e;
-    height: 1fr;
-    padding: 1 1;
-}
-
+    color: #ff8a5c;
+    background: #0e0c12;
 /* ─── Orchestration Dashboard ─────────────────────────────────────────────── */
 
 OrchestrationDashboard {
-    background: #0a0e14;
+    background: #0e0c12;
     height: 1fr;
 }
 
@@ -193,30 +192,36 @@ OrchestrationDashboard > Vertical {
 }
 
 .dashboard-title {
-    color: #7ee787;
+    color: #3ddc97;
     text-style: bold;
     padding: 1 1;
-    border-bottom: solid #21262d;
-    background: #0d1117;
+    border-bottom: solid #262230;
+    background: #15131c;
     width: 1fr;
+    height: 3;
+}
+
+.dashboard-title .dashboard-spinner {
+    color: #ff8a5c;
 }
 
 .panel-subtitle {
-    color: #484f58;
+    color: #c792ea;
     text-style: italic bold;
     padding: 0 1;
-    border-bottom: solid #161b22;
+    border-bottom: solid #191621;
+    background: #111018;
 }
 
 #dash-top {
     height: 16;
-    border-bottom: solid #21262d;
+    border-bottom: solid #262230;
 }
 
 #runs-panel {
     width: 1fr;
-    background: #0a0e14;
-    border-right: solid #21262d;
+    background: #0e0c12;
+    border-right: solid #262230;
     height: 1fr;
 }
 
@@ -227,7 +232,7 @@ OrchestrationDashboard > Vertical {
 
 #feed-panel {
     width: 1fr;
-    background: #0a0e14;
+    background: #0e0c12;
     height: 1fr;
 }
 
@@ -238,17 +243,66 @@ OrchestrationDashboard > Vertical {
 
 #stages-panel {
     height: 10;
-    border-bottom: solid #21262d;
+    border-bottom: solid #262230;
 }
 
 #cost-panel {
     height: 1fr;
 }
 
+RunCard {
+    height: auto;
+    margin: 0 0 1 0;
+    padding: 1;
+    border: solid #262230;
+    background: #15131c;
+}
+
+RunCard.status-running {
+    border: tall #3ddc97;
+    background: #101a19;
+}
+
+RunCard.status-completed {
+    border: solid #2be0c8;
+}
+
+RunCard.status-failed {
+    border: solid #ff5d6b;
+}
+
+RunCard.status-pending {
+    border: solid #262230;
+}
+    border-top: tall #d97757;
+    text-style: bold;
+}
+
+/* ─── Session Terminal ────────────────────────────────────────────────────── */
+
+SessionTerminal {
+    background: #100e16;
+    border: solid #262230;
+    height: 1fr;
+}
+
+#terminal-scroll {
+    background: #100e16;
+    height: 1fr;
+    padding: 0;
+}
+
+#terminal-log {
+    background: #100e16;
+    color: #968ba2;
+    height: 1fr;
+    padding: 1 1;
+}
+}
 /* ─── Agent Mailbox ───────────────────────────────────────────────────────── */
 
 AgentMailbox {
-    background: #0a0e14;
+    background: #0e0c12;
     height: 1fr;
 }
 
@@ -258,261 +312,273 @@ AgentMailbox > Vertical {
 
 #mailbox-top {
     height: 1fr;
-    border-bottom: solid #21262d;
+    border-bottom: solid #262230;
 }
 
 #inbox-panel {
-    width: 30;
-    border-right: solid #21262d;
-    background: #0d1117;
-    height: 1fr;
+    width: 40%;
+    border-right: solid #262230;
+    background: #0e0c12;
+    padding: 0;
 }
 
 #inbox-content {
-    padding: 0 1;
-    height: auto;
+    color: #bcb1c6;
+    padding: 1;
+    height: 1fr;
 }
 
 #thread-panel {
     width: 1fr;
-    background: #0a0e14;
-    height: 1fr;
+    background: #0e0c12;
+    padding: 0;
 }
 
 #thread-content {
-    padding: 0 1;
+    color: #bcb1c6;
+    padding: 1;
     height: auto;
 }
 
 #compose-area {
     height: 3;
-    background: #0d1117;
-    border-top: solid #21262d;
     padding: 0 1;
-    align: left middle;
+    background: #15131c;
+    border-top: solid #262230;
 }
 
 #compose-input {
-    width: 1fr;
-    background: #090c10;
-    border: solid #30363d;
-    color: #e6edf3;
+    margin: 0 1 0 0;
     height: 3;
-}
-
-#compose-input:focus {
-    border: solid #58a6ff;
 }
 
 #send-btn {
-    background: #1f6feb;
-    border: solid #388bfd;
-    color: #e6edf3;
-    margin-left: 1;
     height: 3;
-    min-width: 8;
+    margin: 0 1 0 0;
+    background: #d97757;
+    color: #1c0f07;
+    border: none;
+    text-style: bold;
 }
 
 #send-btn:hover {
-    background: #388bfd;
+    background: #ff8a5c;
 }
 
 #broadcast-btn {
-    background: #21262d;
-    border: solid #30363d;
-    color: #8b949e;
-    margin-left: 1;
     height: 3;
-    min-width: 12;
+    background: #241d28;
+    color: #c792ea;
+    border: solid #3b3350;
 }
 
 #broadcast-btn:hover {
-    background: #30363d;
-    border: solid #8b949e;
+    background: #3b3350;
+    color: #efe9e0;
 }
 
 /* ─── DataTable ───────────────────────────────────────────────────────────── */
 
 DataTable {
-    background: #0d1117;
-    color: #c9d1d9;
-    height: 1fr;
+    background: #0e0c12;
+    color: #bcb1c6;
+    border: none;
+    padding: 0;
 }
 
 DataTable > .datatable--header {
-    background: #161b22;
-    color: #7ee787;
+    background: #15131c;
+    color: #5fd4ff;
     text-style: bold;
 }
 
 DataTable > .datatable--header-cursor {
-    background: #1f2937;
-    color: #7ee787;
+    background: #241d28;
+    color: #ff8a5c;
 }
 
 DataTable > .datatable--cursor {
-    background: #1a2233;
-    color: #e6edf3;
+    background: #241d28;
+    color: #efe9e0;
+    text-style: bold;
 }
 
 DataTable > .datatable--even-row {
-    background: #090c10;
+    background: #111018;
 }
 
 DataTable > .datatable--odd-row {
-    background: #0d1117;
+    background: #0e0c12;
+}
+
+DataTable > .datatable--hover {
+    background: #1c1825;
 }
 
 /* ─── Input ───────────────────────────────────────────────────────────────── */
 
 Input {
-    background: #0d1117;
-    border: solid #30363d;
-    color: #e6edf3;
+    background: #09080d;
+    color: #efe9e0;
+    border: solid #262230;
 }
 
 Input:focus {
-    border: solid #58a6ff;
+    border: tall #d97757;
 }
 
 Input > .input--placeholder {
-    color: #484f58;
+    color: #5f566c;
 }
 
 /* ─── Button ──────────────────────────────────────────────────────────────── */
 
 Button {
-    background: #21262d;
-    color: #c9d1d9;
-    border: solid #30363d;
+    background: #241d28;
+    color: #efe9e0;
+    border: solid #3b3350;
 }
 
 Button:hover {
-    background: #30363d;
-    border: solid #58a6ff;
-    color: #e6edf3;
+    background: #3b3350;
 }
 
 Button.-primary {
-    background: #1f6feb;
-    border: solid #388bfd;
-    color: #ffffff;
+    background: #d97757;
+    color: #1c0f07;
+    border: none;
+    text-style: bold;
 }
 
 Button.-primary:hover {
-    background: #388bfd;
+    background: #ff8a5c;
 }
 
-/* ─── Log widget ──────────────────────────────────────────────────────────── */
+/* ─── Log ─────────────────────────────────────────────────────────────────── */
 
 Log {
-    background: #090c10;
-    color: #8b949e;
-    border: none;
-    scrollbar-color: #21262d;
-    scrollbar-color-hover: #30363d;
+    background: #100e16;
+    color: #bcb1c6;
+    padding: 0;
 }
 
-/* ─── Select ──────────────────────────────────────────────────────────────── */
+/* ─── Select & options ────────────────────────────────────────────────────── */
 
 Select {
-    background: #0d1117;
-    border: solid #30363d;
-    color: #e6edf3;
+    background: #09080d;
+    color: #efe9e0;
+    border: solid #262230;
+    padding: 0 1;
 }
 
 Select:focus {
-    border: solid #58a6ff;
-}
-
-Select > SelectCurrent {
-    background: #0d1117;
-    color: #e6edf3;
-}
-
-SelectOverlay {
-    background: #161b22;
-    border: solid #30363d;
+    border: tall #d97757;
 }
 
 SelectOverlay > Option {
-    color: #c9d1d9;
+    background: #0e0c12;
+    color: #bcb1c6;
+    padding: 0 1;
 }
 
 SelectOverlay > Option:hover {
-    background: #1a2233;
-    color: #e6edf3;
+    background: #1c1825;
+    color: #efe9e0;
 }
 
 SelectOverlay > Option.-highlighted {
-    background: #1a2233;
-    color: #58a6ff;
+    background: #241d28;
+    color: #ff8a5c;
 }
 
 /* ─── ScrollableContainer ─────────────────────────────────────────────────── */
 
 ScrollableContainer {
-    scrollbar-color: #21262d;
-    scrollbar-color-hover: #30363d;
-    scrollbar-background: #0a0e14;
-    scrollbar-background-hover: #0d1117;
+    scrollbar-color: #3b3350;
+    scrollbar-color-hover: #d97757;
+    scrollbar-background: #0e0c12;
+    scrollbar-background-hover: #111018;
 }
-
 /* ─── Toast Notifications ─────────────────────────────────────────────────── */
 
 Toast {
-    background: #161b22;
-    border: tall #58a6ff;
-    color: #e6edf3;
+    background: #15131c;
+    border: tall #d97757;
+    color: #efe9e0;
+}
+
+ToastTitle {
+    color: #ff8a5c;
+    text-style: bold;
+}
+
+ToastDescription {
+    color: #bcb1c6;
 }
 
 Toast.-information {
-    border: tall #58a6ff;
-    background: #0d1b30;
+    border: tall #5fd4ff;
+    background: #0e1c26;
+}
+
+Toast.-information ToastTitle {
+    color: #5fd4ff;
 }
 
 Toast.-warning {
-    border: tall #d29922;
-    background: #2d2209;
+    border: tall #ffd166;
+    background: #2a2008;
+}
+
+Toast.-warning ToastTitle {
+    color: #ffd166;
 }
 
 Toast.-error {
-    border: tall #f85149;
-    background: #2d1515;
+    border: tall #ff5d6b;
+    background: #2a0f14;
+}
+
+Toast.-error ToastTitle {
+    color: #ff5d6b;
 }
 
 Toast.-success {
-    border: tall #3fb950;
-    background: #0d2d15;
+    border: tall #3ddc97;
+    background: #0d241b;
+}
+
+Toast.-success ToastTitle {
+    color: #3ddc97;
 }
 
 /* ─── Modal dialog (NewSessionScreen) ────────────────────────────────────── */
 
 NewSessionScreen {
     align: center middle;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(14, 12, 18, 0.82);
 }
 
 #dialog {
-    background: #0d1117;
-    border: double #58a6ff;
+    background: #15131c;
+    border: double #d97757;
     padding: 2 3;
-    width: 62;
+    width: 64;
     height: auto;
     max-height: 80%;
 }
 
 #dialog-title {
-    color: #58a6ff;
+    color: #ffd166;
     text-style: bold;
     text-align: center;
     margin-bottom: 1;
     padding-bottom: 1;
-    border-bottom: solid #21262d;
+    border-bottom: tall #262230;
 }
 
 #dialog Label {
-    color: #8b949e;
+    color: #c792ea;
     margin-top: 1;
 }
 
@@ -524,33 +590,33 @@ NewSessionScreen {
 
 #create-btn {
     margin-right: 1;
+    background: #d97757;
+    border: none;
+    color: #1c0f07;
+}
+
+#create-btn:hover {
+    background: #ff8a5c;
 }
 
 #cancel-btn {
-    background: #21262d;
-    border: solid #30363d;
-    color: #8b949e;
+    background: #241d28;
+    border: solid #3b3350;
+    color: #968ba2;
 }
 
 /* ─── Status colour helpers ───────────────────────────────────────────────── */
 
-.status-idle        { color: #6e7681; }
-.status-working     { color: #3fb950; }
-.status-blocked     { color: #f85149; }
-.status-done        { color: #58a6ff; }
-.status-error       { color: #f85149; }
-.status-unreachable { color: #d29922; }
-
-/* ─── RunCard ─────────────────────────────────────────────────────────────── */
-
-RunCard {
-    height: auto;
-    margin: 0 0 1 0;
-    padding: 1;
-    border: solid #21262d;
-    background: #0d1117;
-}
-
+.status-idle        { color: #968ba2; }
+.status-working     { color: #3ddc97; }
+.status-active      { color: #3ddc97; }
+.status-blocked     { color: #ff5d6b; }
+.status-done        { color: #5fd4ff; }
+.status-completed   { color: #2be0c8; }
+.status-error       { color: #ff5d6b; }
+.status-failed      { color: #ff5d6b; }
+.status-unreachable { color: #ffd166; }
+.status-paused      { color: #ffd166; }
 /* ─── ProgressBar ─────────────────────────────────────────────────────────── */
 
 ProgressBar {
@@ -558,25 +624,25 @@ ProgressBar {
 }
 
 ProgressBar > .bar--complete {
-    color: #3fb950;
+    color: #3ddc97;
 }
 
 ProgressBar > .bar--indeterminate {
-    color: #58a6ff;
+    color: #5fd4ff;
 }
 
 ProgressBar > .bar--bar {
-    color: #21262d;
+    color: #262230;
 }
 
 /* ─── Perf HUD ───────────────────────────────────────────────────────────── */
 
 #perf-hud {
-    background: rgba(13, 17, 23, 0.9);
-    border: solid #30363d;
-    color: #8b949e;
+    background: rgba(21, 19, 28, 0.94);
+    border: tall #3b3350;
+    color: #968ba2;
     dock: right;
-    width: 32;
+    width: 34;
     height: auto;
     max-height: 50%;
     padding: 1;
@@ -589,21 +655,117 @@ ProgressBar > .bar--bar {
 }
 
 .perf-title {
-    color: #d29922;
+    color: #ffd166;
     text-style: bold;
-    border-bottom: solid #21262d;
+    border-bottom: solid #262230;
     margin-bottom: 1;
 }
 
 .perf-row {
-    color: #8b949e;
+    color: #968ba2;
     height: 1;
 }
 
 .perf-label {
-    color: #6e7681;
+    color: #5f566c;
 }
 
 .perf-value {
-    color: #58a6ff;
+    color: #5fd4ff;
+    text-style: bold;
+}
+
+/* ─── Boot screen ─────────────────────────────────────────────────────────── */
+
+BootScreen {
+    background: #0e0c12;
+    align: center middle;
+}
+
+#boot-box {
+    width: auto;
+    height: auto;
+    align: center middle;
+}
+
+#boot-logo {
+    color: #efe9e0;
+    text-align: center;
+    height: 7;
+}
+
+#boot-status {
+    height: 1;
+    text-align: center;
+    color: #968ba2;
+    margin-top: 1;
+}
+
+#boot-bar {
+    height: 1;
+    text-align: center;
+    margin-top: 1;
+}
+
+#boot-hint {
+    color: #5f566c;
+    text-align: center;
+    margin-top: 1;
+}
+
+#boot-version {
+    color: #5f566c;
+    dock: bottom;
+    height: 1;
+    padding: 0 2;
+    text-align: right;
+}
+
+/* ─── ASCII loader widgets ────────────────────────────────────────────────── */
+
+AsciiLoading {
+    height: 1;
+    color: #5fd4ff;
+    margin: 0 1;
+}
+
+ProgressBarLoader {
+    height: 1;
+    margin: 0 1;
+}
+
+/* ─── Loader showcase screen ──────────────────────────────────────────────── */
+
+#loader-showcase {
+    width: auto;
+    height: auto;
+    margin: 3 6;
+    padding: 0;
+    border: tall #262230;
+    background: #15131c;
+    align: left top;
+}
+
+#showcase-title {
+    color: #ffd166;
+    text-style: bold;
+    padding: 1 1;
+    border-bottom: solid #262230;
+    background: #1c1825;
+}
+
+#showcase-spacer {
+    height: 1;
+}
+
+#showcase-hint {
+    color: #5f566c;
+    margin: 1 1;
+}
+
+/* ─── LoadingIndicator (built-in) ─────────────────────────────────────────── */
+
+LoadingIndicator {
+    color: #ff8a5c;
+    background: rgba(21, 19, 28, 0.9);
 }

@@ -13,6 +13,9 @@ from textual.reactive import reactive
 from textual.widgets import Button, DataTable, Input, Label, Static
 from rich.text import Text
 
+from ..ascii import spinner
+from .. import theme
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -28,12 +31,12 @@ KIND_GLYPHS: dict[str, str] = {
 }
 
 KIND_STYLES: dict[str, str] = {
-    "chat":      "white",
-    "questions": "yellow",
-    "plan":      "bright_cyan",
-    "result":    "bright_green",
-    "status":    "#58a6ff",
-    "collision": "bright_red bold",
+    "chat":      theme.PINK,
+    "questions": theme.YELLOW,
+    "plan":      theme.CYAN,
+    "result":    theme.GREEN,
+    "status":    theme.ACCENT_HI,
+    "collision": theme.RED,
 }
 
 
@@ -59,7 +62,7 @@ class AgentMailbox(Static):
 
     def compose(self) -> ComposeResult:
         with Vertical():
-            yield Label("  📬 AGENT MAILBOX", classes="dashboard-title")
+            yield Label("📬 AGENT MAILBOX", id="mailbox-title", classes="dashboard-title")
             with Horizontal(id="mailbox-top"):
                 # Left: inbox list
                 with Vertical(id="inbox-panel"):
@@ -79,8 +82,22 @@ class AgentMailbox(Static):
                 yield Button("Broadcast", id="broadcast-btn")
 
     def on_mount(self) -> None:
+        self._title_tick = 0
+        self._animate_title()
+        self.set_interval(0.3, self._animate_title)
         self.refresh_inbox()
         self.set_interval(3.0, self.refresh_inbox)
+
+    def _animate_title(self) -> None:
+        self._title_tick += 1
+        title = self.query_one("#mailbox-title", Label)
+        text = Text()
+        text.append(f" {spinner('braille', self._title_tick)} ", style=f"bold {theme.ACCENT_HI}")
+        text.append("📬 MAIL", style=f"bold {theme.PINK}")
+        stops = theme.GRADIENT_SESS
+        for idx, ch in enumerate("BOX"):
+            text.append(ch, style=f"bold {stops[idx % len(stops)]}")
+        title.update(text)
 
     def watch_session_id(self, session_id: Optional[str]) -> None:
         """Re-load inbox when the active session changes."""
@@ -125,7 +142,7 @@ class AgentMailbox(Static):
 
         except Exception as exc:
             inbox_content.update(
-                Text(f"\n  Error loading mailbox:\n  {exc}", style="bright_red")
+                Text(f"\n  [bold #ff5d6b]error loading mailbox:[/]\n  {exc}", style=f"dim {theme.RED}")
             )
 
     def _render_inbox(self, widget: Static, messages: list[dict]) -> None:
@@ -145,32 +162,32 @@ class AgentMailbox(Static):
             if m.get("claimed_at") is None and m.get("to_session_id") == self.session_id:
                 unclaimed += 1
 
-        text.append(f"\n  {len(messages)} messages", style="bold white")
+        text.append(f"\n  [bold #e6ddf0]{len(messages)} messages[/]")
         if unclaimed:
-            text.append(f"  ({unclaimed} unclaimed)", style="bold bright_red")
-        text.append("\n\n  By type:\n", style="dim")
+            text.append(f"  [bold #ff5d6b]({unclaimed} unclaimed)[/]")
+        text.append("\n\n  [dim #5f566c]by type:[/]\n", style="dim")
 
         for kind, count in sorted(by_kind.items(), key=lambda x: -x[1]):
             glyph = KIND_GLYPHS.get(kind, "·")
-            style = KIND_STYLES.get(kind, "white")
-            text.append(f"  {glyph} {kind:<12}", style=style)
-            text.append(f" {count}\n", style="bold")
+            style = KIND_STYLES.get(kind, theme.TEXT)
+            text.append(f"  {glyph} {kind:<12}", style=f"bold {style}")
+            text.append(f" {count}\n", style=f"bold {style}")
 
-        text.append("\n  Recent:\n", style="dim")
+        text.append("\n  [dim #5f566c]recent:[/]\n", style="dim")
         for m in messages[:8]:
             kind = m.get("kind") or "chat"
             glyph = KIND_GLYPHS.get(kind, "·")
-            style = KIND_STYLES.get(kind, "white")
+            style = KIND_STYLES.get(kind, theme.TEXT)
             ts = _ts_str(m.get("created_at"))
             body = (m.get("body") or "")[:32]
             from_id = (m.get("from_session_id") or "broadcast")[:8]
 
             is_collision = kind == "collision"
-            bg = " on #2d1515" if is_collision else ""
+            bg = f" on {theme.STATUS_BG['error']}" if is_collision else ""
 
             text.append(f"  {glyph} ", style=style)
-            text.append(f"[{ts}] ", style="dim")
-            text.append(f"{from_id}", style="dim cyan")
+            text.append(f"[{ts}] ", style=f"dim {theme.TEXT_FAINT}")
+            text.append(f"{from_id}", style=f"dim {theme.CYAN}")
             text.append(f"\n    {body}…\n", style=style + bg)
 
         widget.update(text)
@@ -189,13 +206,13 @@ class AgentMailbox(Static):
             return
 
         if highlight_collisions:
-            text.append("  ⚠️  COLLISION ALERTS\n", style="bold bright_red")
-            text.append("  " + "─" * 42 + "\n\n", style="dim")
+            text.append("  [bold #ff5d6b]⚠️  COLLISION ALERTS[/]\n")
+            text.append("  " + "░" * 42 + "\n\n", style=f"dim {theme.TEXT_FAINT}")
 
         for m in reversed(messages[:20]):
             kind = m.get("kind") or "chat"
             glyph = KIND_GLYPHS.get(kind, "·")
-            style = KIND_STYLES.get(kind, "white")
+            style = KIND_STYLES.get(kind, theme.TEXT)
             ts = _ts_str(m.get("created_at"))
             body = m.get("body") or "(empty)"
             from_id = (m.get("from_session_id") or "system")[:12]
@@ -206,33 +223,35 @@ class AgentMailbox(Static):
             is_collision = kind == "collision"
 
             if is_collision:
-                text.append("  ┌" + "─" * 50 + "┐\n", style="bright_red")
-                text.append(f"  │ {glyph} COLLISION  [{ts}]", style="bright_red bold")
-                text.append(" " * max(0, 29 - len(ts)) + "│\n", style="bright_red")
-                text.append(f"  │ {body[:48]:<48} │\n", style="bright_red")
-                text.append("  └" + "─" * 50 + "┘\n\n", style="bright_red")
+                text.append("  ┌" + "─" * 50 + "┐\n", style=f"{theme.RED}")
+                text.append(f"  │ {glyph} COLLISION  [{ts}]", style=f"bold {theme.RED}")
+                text.append(" " * max(0, 29 - len(ts)) + "│\n", style=theme.RED)
+                text.append(f"  │ {body[:48]:<48} │\n", style=theme.RED)
+                text.append("  └" + "─" * 50 + "┘\n\n", style=theme.RED)
             else:
                 # Direction arrow
                 if m.get("to_session_id") == self.session_id:
                     arrow = "→ you"
-                    arrow_style = "bright_green"
+                    arrow_style = theme.GREEN
                 elif m.get("from_session_id") == self.session_id:
                     arrow = "← you"
-                    arrow_style = "bright_cyan"
+                    arrow_style = theme.CYAN
                 else:
                     arrow = "⊕ bcast"
-                    arrow_style = "yellow"
+                    arrow_style = theme.YELLOW
 
                 claimed_mark = " ✓" if claimed else ""
                 text.append(f"  {glyph} ", style=style)
-                text.append(f"{from_id}", style="dim cyan")
+                text.append(f"{from_id}", style=f"dim {theme.CYAN}")
                 text.append(f" {arrow} ", style=arrow_style)
-                text.append(f"{to_id}", style="dim cyan")
-                text.append(f"  [{ts}]", style="dim")
-                text.append(f"{claimed_mark}\n", style="dim bright_green")
+                text.append(f"{to_id}", style=f"dim {theme.CYAN}")
+                text.append(f"  [{ts}]", style=f"dim {theme.TEXT_FAINT}")
+                text.append(f"{claimed_mark}\n", style=f"dim {theme.GREEN}")
 
+                kind_color = KIND_STYLES.get(kind, theme.TEXT)
                 if intent:
-                    text.append(f"  intent: {intent}  kind: {kind}\n", style="dim italic")
+                    text.append(f"  {kind.upper():^8}", style=f"bold {kind_color} on {theme.BG_PANEL_2}")
+                    text.append(f"  intent: {intent}\n", style=f"dim {theme.TEXT_FAINT}")
 
                 # Wrap body at 55 chars
                 for line in _wrap(body, 55):

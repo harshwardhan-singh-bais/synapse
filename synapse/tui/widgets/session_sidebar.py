@@ -1,36 +1,40 @@
 """
-Session sidebar — live list of all agent sessions with status indicators.
-Updates every 2 seconds from the DB.
+Session sidebar — live list of all agent sessions with vibrant status pills.
+Updates every 2 seconds from the DB; the title bar carries a live spinner.
 """
+
 from __future__ import annotations
 
 import time
 from typing import Optional
 
+from rich.text import Text
 from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.reactive import reactive
 from textual.widgets import Label, ListItem, ListView, Static
-from rich.text import Text
 
-# Status icon + style pairs
-STATUS_ICONS: dict[str, tuple[str, str]] = {
-    "idle":        ("○", "dim"),
-    "working":     ("●", "bright_green"),
-    "blocked":     ("◉", "bright_red"),
-    "done":        ("✓", "bright_cyan"),
-    "error":       ("✗", "bright_red"),
-    "unreachable": ("?", "yellow"),
-    "active":      ("●", "bright_green"),
+from ..ascii import spinner
+from .. import theme
+
+# Status glyphs + themed colors
+STATUS_GLYPHS: dict[str, str] = {
+    "idle":        "○",
+    "working":     "●",
+    "active":      "●",
+    "blocked":     "◉",
+    "done":        "✓",
+    "error":       "✗",
+    "unreachable": "?",
 }
 
-_DEFAULT_ICON = ("·", "dim")
+_DEFAULT_GLYPH = "·"
 
 
-def _status_icon(status: Optional[str]) -> tuple[str, str]:
+def _status_glyph(status: Optional[str]) -> str:
     if status is None:
-        return _DEFAULT_ICON
-    return STATUS_ICONS.get(status.lower(), _DEFAULT_ICON)
+        return _DEFAULT_GLYPH
+    return STATUS_GLYPHS.get(status.lower(), _DEFAULT_GLYPH)
 
 
 def _age_str(created_at_ms: Optional[int]) -> str:
@@ -61,40 +65,68 @@ class SessionSidebar(Static):
 
     def compose(self) -> ComposeResult:
         with Vertical():
-            yield Label("⚡ SESSIONS", classes="sidebar-title")
+            yield Label(id="sidebar-title", classes="sidebar-title")
             if not self.sessions:
                 yield Label(
-                    " No sessions yet\n Press [bold cyan]n[/] to create one",
+                    "[dim]  no sessions yet…\n  press [/][bold #ffd166]n[/][dim] to mint one[/]",
                     classes="sidebar-empty",
                 )
             else:
                 with ListView(id="session-list"):
                     for s in self.sessions:
-                        icon, style = _status_icon(s.status or s.hook_state)
-                        age = _age_str(s.created_at)
+                        yield self._build_item(s)
 
-                        text = Text()
-                        text.append(f" {icon} ", style=style)
-                        text.append(
-                            f"{s.name[:16]:<16}",
-                            style="bold white" if s.id == self.selected_session_id else "white",
-                        )
-                        text.append(f" {age:>3}", style="dim")
+    def _build_item(self, s) -> ListItem:
+        status = (s.status or s.hook_state or "idle").lower()
+        glyph = _status_glyph(status)
+        fg = theme.STATUS_FG.get(status, theme.TEXT_DIM)
+        bg = theme.STATUS_BG.get(status, "#18151f")
+        age = _age_str(s.created_at)
 
-                        agent_label = (s.agent or "?")[:8]
-                        text.append(f"\n   {agent_label}", style="dim cyan")
-                        if s.cwd:
-                            short_cwd = s.cwd.split("/")[-1] or s.cwd.split("\\")[-1]
-                            text.append(f"  {short_cwd[:12]}", style="dim")
+        text = Text()
+        # ── status glyph + name + age ───────────────────────────────────────
+        text.append(f" {glyph} ", style=fg)
+        name_style = "bold #efe9e0" if s.id == self.selected_session_id else "#efe9e0"
+        text.append(f"{s.name[:14]:<14}", style=name_style)
+        text.append(f"{age:>4} ", style=f"dim {theme.TEXT_FAINT}")
+        text.append("\n")
 
-                        item = ListItem(Label(text), id=f"sess-{s.id}")
-                        if s.id == self.selected_session_id:
-                            item.add_class("selected-item")
-                        yield item
+        # ── status pill ─────────────────────────────────────────────────────
+        text.append("   ")
+        text.append(
+            f"{status[:11]:^11}",
+            style=f"bold {fg} on {bg}",
+        )
+        # ── agent chip ──────────────────────────────────────────────────────
+        agent = (s.agent or "?")[:8]
+        color = theme.agent_color(agent)
+        text.append(f" {agent:<8}", style=f"bold {color}")
+        # ── cwd tail ────────────────────────────────────────────────────────
+        if s.cwd:
+            short_cwd = s.cwd.split("/")[-1] or s.cwd.split("\\")[-1]
+            text.append(f" {short_cwd[:10]}", style=f"dim {theme.TEXT_FAINT}")
+
+        item = ListItem(Label(text), id=f"sess-{s.id}")
+        if s.id == self.selected_session_id:
+            item.add_class("selected-item")
+        return item
 
     def on_mount(self) -> None:
+        self._title_tick = 0
+        self._animate_title()
+        self.set_interval(0.28, self._animate_title)
         self.refresh_sessions()
         self.set_interval(2.0, self.refresh_sessions)
+
+    def _animate_title(self) -> None:
+        self._title_tick += 1
+        title = self.query_one("#sidebar-title", Label)
+        text = Text()
+        text.append(f" {spinner('braille', self._title_tick)} ", style=f"bold {theme.ACCENT_HI}")
+        for idx, ch in enumerate("SESSION"):
+            text.append(ch, style=f"bold {theme.GRADIENT_SESS[idx % len(theme.GRADIENT_SESS)]}")
+        text.append(f" ({len(self.sessions)})", style=f"dim {theme.TEXT_FAINT}")
+        title.update(text)
 
     def refresh_sessions(self) -> None:
         """Pull sessions from the DB and update the reactive list."""
