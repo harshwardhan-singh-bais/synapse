@@ -16,7 +16,7 @@ from textual.containers import Vertical
 from textual.screen import ModalScreen, Screen
 from textual.widgets import Label, Static
 
-from ..ascii import colored_logo, load_dots, rainbow_bar, spinner, wave_bar
+from ..ascii import ascii_bar_text, colored_logo, load_dots, spinner, wave_bar
 from .. import theme
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -44,7 +44,7 @@ class AsciiLoading(Static):
 
     def on_mount(self) -> None:
         self._tick = 0
-        self.update(self._render())
+        self.update(self._render_frame())
         self.set_interval(0.09, self._advance)
 
     def set_text(self, text: str) -> None:
@@ -53,9 +53,9 @@ class AsciiLoading(Static):
 
     def _advance(self) -> None:
         self._tick += 1
-        self.update(self._render())
+        self.update(self._render_frame())
 
-    def _render(self) -> Text:
+    def _render_frame(self) -> Text:
         return Text(
             f" {spinner(self._spinner_kind, self._tick)}  {self._text}"
             f"{load_dots(self._tick)}",
@@ -77,9 +77,9 @@ class ProgressBarLoader(Static):
 
     def _advance(self) -> None:
         self._tick += 1
-        self.update(self._render())
+        self.update(self._render_frame())
 
-    def _render(self) -> Text:
+    def _render_frame(self) -> Text:
         return wave_bar(self._width, self._tick)
 
 
@@ -91,7 +91,11 @@ class ProgressBarLoader(Static):
 class BootScreen(ModalScreen[None]):
     """Fullscreen ASCII boot sequence shown when the TUI starts.
 
-    Dismisses itself after ~3 seconds or on any key / click.
+    Dismisses itself after ~3 seconds or on escape.
+
+    Note: the boot screen must only dismiss via the timer or the binding
+    action — dismissing synchronously from ``on_key`` corrupts the app's
+    key dispatch for subsequent key presses.
     """
 
     BINDINGS = [
@@ -103,7 +107,7 @@ class BootScreen(ModalScreen[None]):
             yield Static(id="boot-logo")
             yield Static(id="boot-status")
             yield Static(id="boot-bar")
-            yield Label("  press any key to skip", id="boot-hint")
+            yield Label("  press [bold #ff8a5c]esc[/] to skip", id="boot-hint")
         yield Label("SYN·APSE  v0.1", id="boot-version")
 
     def on_mount(self) -> None:
@@ -120,12 +124,12 @@ class BootScreen(ModalScreen[None]):
         pct = min(100, int(self._tick / 8 * 100))
         status.update(
             Text(
-                f" {spinner('braille', self._tick)}  powering up the mesh"
+                f" {spinner('braille', self._tick)}  starting synapse"
                 f"{load_dots(self._tick)}",
                 style=f"bold {theme.TEXT_DIM}",
             )
         )
-        bar.update(rainbow_bar(pct, 26))
+        bar.update(ascii_bar_text(pct, 26, fg=theme.ACCENT))
 
     def _finish(self) -> None:
         if self.app.screen == self:
@@ -133,11 +137,6 @@ class BootScreen(ModalScreen[None]):
 
     def action_skip(self) -> None:
         self.dismiss(None)
-
-    def on_key(self, event) -> None:
-        if self.app.screen is self:
-            event.prevent_default()
-            self.dismiss(None)
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -166,7 +165,7 @@ class LoaderShowcaseScreen(Screen[None]):
             yield AsciiLoading("snake · crawling", "snake", id="load-snake", color=theme.BLUE)
             yield Label("", id="showcase-spacer")
             yield ProgressBarLoader(width=30, id="showcase-bar")
-            yield Label("\n  press [bold #ff8a5c]q[/] or [bold #ff8a5c]esc[/] to close", id="showcase-hint")
+            yield Label("\n  press [bold #e89173]q[/] or [bold #e89173]esc[/] to close", id="showcase-hint")
 
     def action_close(self) -> None:
         self.app.pop_screen()  # type: ignore[attr-defined]

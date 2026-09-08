@@ -1,6 +1,6 @@
 """
-Session sidebar — live list of all agent sessions with vibrant status pills.
-Updates every 2 seconds from the DB; the title bar carries a live spinner.
+Session sidebar — live list of all agent sessions with status pills.
+Updates every 2 seconds from the DB.
 """
 
 from __future__ import annotations
@@ -14,7 +14,6 @@ from textual.containers import Vertical
 from textual.reactive import reactive
 from textual.widgets import Label, ListItem, ListView, Static
 
-from ..ascii import spinner
 from .. import theme
 
 # Status glyphs + themed colors
@@ -68,7 +67,7 @@ class SessionSidebar(Static):
             yield Label(id="sidebar-title", classes="sidebar-title")
             if not self.sessions:
                 yield Label(
-                    "[dim]  no sessions yet…\n  press [/][bold #ffd166]n[/][dim] to mint one[/]",
+                    "[dim]  no sessions yet…\n  press [/][bold #e89173]n[/][dim] to mint one[/]",
                     classes="sidebar-empty",
                 )
             else:
@@ -86,7 +85,7 @@ class SessionSidebar(Static):
         text = Text()
         # ── status glyph + name + age ───────────────────────────────────────
         text.append(f" {glyph} ", style=fg)
-        name_style = "bold #efe9e0" if s.id == self.selected_session_id else "#efe9e0"
+        name_style = "bold #e8e4dc" if s.id == self.selected_session_id else "#e8e4dc"
         text.append(f"{s.name[:14]:<14}", style=name_style)
         text.append(f"{age:>4} ", style=f"dim {theme.TEXT_FAINT}")
         text.append("\n")
@@ -112,20 +111,15 @@ class SessionSidebar(Static):
         return item
 
     def on_mount(self) -> None:
-        self._title_tick = 0
-        self._animate_title()
-        self.set_interval(0.28, self._animate_title)
+        self._update_title()
         self.refresh_sessions()
         self.set_interval(2.0, self.refresh_sessions)
 
-    def _animate_title(self) -> None:
-        self._title_tick += 1
+    def _update_title(self) -> None:
         title = self.query_one("#sidebar-title", Label)
         text = Text()
-        text.append(f" {spinner('braille', self._title_tick)} ", style=f"bold {theme.ACCENT_HI}")
-        for idx, ch in enumerate("SESSION"):
-            text.append(ch, style=f"bold {theme.GRADIENT_SESS[idx % len(theme.GRADIENT_SESS)]}")
-        text.append(f" ({len(self.sessions)})", style=f"dim {theme.TEXT_FAINT}")
+        text.append(" ⚑ SESSIONS", style=f"bold {theme.TEXT_DIM}")
+        text.append(f"  ({len(self.sessions)})", style=f"dim {theme.TEXT_FAINT}")
         title.update(text)
 
     def refresh_sessions(self) -> None:

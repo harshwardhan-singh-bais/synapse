@@ -87,7 +87,7 @@ def wave_bar(width: int = 22, tick: int = 0) -> Text:
         if idx == pos:
             out.append("█", style=f"bold {theme.ACCENT_HI}")
         elif idx in (pos - 1, pos + 1) and 0 <= idx < width:
-            out.append("▓", style=theme.YELLOW)
+            out.append("▓", style=theme.ACCENT)
         else:
             out.append("─", style=f"dim {theme.TEXT_FAINT}")
     return out
@@ -134,11 +134,8 @@ def _wordmark_gradient() -> Text:
     import rich.text as _text
 
     t = _text.Text()
-    for idx, ch in enumerate("SYN▪APSE"):
-        if ch == "▪":
-            t.append("▪", style=f"bold {theme.YELLOW}")
-        else:
-            t.append(ch, style=f"bold {theme.GRADIENT_LOGO[idx % len(theme.GRADIENT_LOGO)]}")
+    for idx, ch in enumerate("SYNAPSE"):
+        t.append(ch, style=f"bold {theme.GRADIENT_LOGO[idx % len(theme.GRADIENT_LOGO)]}")
     return t
 
 
@@ -154,4 +151,4 @@ def gradient_rule(width: int = 40, glyph: str = "━") -> str:
 
 def brand_line(width: int = 12) -> str:
     """A compact two-tone brand mark, e.g. ``❰❮ SYN▪APSE ❯❱``."""
-    return "[#d97757]❰[/][#ff8a5c]❮[/] [#c792ea]SYN▪APSE[/] [#ff8a5c]❯[/][#d97757]❱[/]"
+    return "[#d97757]❰[/][#e89173]❮[/] [#e8e4dc]SYNAPSE[/] [#e89173]❯[/][#d97757]❱[/]"

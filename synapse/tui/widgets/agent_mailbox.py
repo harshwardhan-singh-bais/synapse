@@ -13,7 +13,6 @@ from textual.reactive import reactive
 from textual.widgets import Button, DataTable, Input, Label, Static
 from rich.text import Text
 
-from ..ascii import spinner
 from .. import theme
 
 
@@ -80,24 +79,22 @@ class AgentMailbox(Static):
                 )
                 yield Button("Send", variant="primary", id="send-btn")
                 yield Button("Broadcast", id="broadcast-btn")
+                yield Button("Claim", id="claim-btn", tooltip="Atomically claim this session's unclaimed messages")
 
     def on_mount(self) -> None:
-        self._title_tick = 0
-        self._animate_title()
-        self.set_interval(0.3, self._animate_title)
+        self._update_title()
         self.refresh_inbox()
         self.set_interval(3.0, self.refresh_inbox)
 
-    def _animate_title(self) -> None:
-        self._title_tick += 1
+    def _update_title(self) -> None:
         title = self.query_one("#mailbox-title", Label)
-        text = Text()
-        text.append(f" {spinner('braille', self._title_tick)} ", style=f"bold {theme.ACCENT_HI}")
-        text.append("📬 MAIL", style=f"bold {theme.PINK}")
-        stops = theme.GRADIENT_SESS
-        for idx, ch in enumerate("BOX"):
-            text.append(ch, style=f"bold {stops[idx % len(stops)]}")
-        title.update(text)
+        title.update(" 📬 MAILBOX")
+
+    def _animate_title(self) -> None:
+        if not self.visible:
+            return
+        title = self.query_one("#mailbox-title", Label)
+        title.update(" 📬 MAILBOX")
 
     def watch_session_id(self, session_id: Optional[str]) -> None:
         """Re-load inbox when the active session changes."""
@@ -105,6 +102,8 @@ class AgentMailbox(Static):
 
     def refresh_inbox(self) -> None:
         """Pull messages for the selected session and render them."""
+        if not self.visible:
+            return
         inbox_content = self.query_one("#inbox-content", Static)
         thread_content = self.query_one("#thread-content", Static)
 
@@ -142,7 +141,7 @@ class AgentMailbox(Static):
 
         except Exception as exc:
             inbox_content.update(
-                Text(f"\n  [bold #ff5d6b]error loading mailbox:[/]\n  {exc}", style=f"dim {theme.RED}")
+                Text(f"\n  [bold #e5534b]error loading mailbox:[/]\n  {exc}", style=f"dim {theme.RED}")
             )
 
     def _render_inbox(self, widget: Static, messages: list[dict]) -> None:
@@ -162,10 +161,10 @@ class AgentMailbox(Static):
             if m.get("claimed_at") is None and m.get("to_session_id") == self.session_id:
                 unclaimed += 1
 
-        text.append(f"\n  [bold #e6ddf0]{len(messages)} messages[/]")
+        text.append(f"\n  [bold #e8e4dc]{len(messages)} messages[/]")
         if unclaimed:
-            text.append(f"  [bold #ff5d6b]({unclaimed} unclaimed)[/]")
-        text.append("\n\n  [dim #5f566c]by type:[/]\n", style="dim")
+            text.append(f"  [bold #e5534b]({unclaimed} unclaimed)[/]")
+        text.append("\n\n  [dim #6e685d]by type:[/]\n", style="dim")
 
         for kind, count in sorted(by_kind.items(), key=lambda x: -x[1]):
             glyph = KIND_GLYPHS.get(kind, "·")
@@ -173,7 +172,7 @@ class AgentMailbox(Static):
             text.append(f"  {glyph} {kind:<12}", style=f"bold {style}")
             text.append(f" {count}\n", style=f"bold {style}")
 
-        text.append("\n  [dim #5f566c]recent:[/]\n", style="dim")
+        text.append("\n  [dim #6e685d]recent:[/]\n", style="dim")
         for m in messages[:8]:
             kind = m.get("kind") or "chat"
             glyph = KIND_GLYPHS.get(kind, "·")
@@ -206,7 +205,7 @@ class AgentMailbox(Static):
             return
 
         if highlight_collisions:
-            text.append("  [bold #ff5d6b]⚠️  COLLISION ALERTS[/]\n")
+            text.append("  [bold #e5534b]⚠ COLLISION ALERTS[/]\n")
             text.append("  " + "░" * 42 + "\n\n", style=f"dim {theme.TEXT_FAINT}")
 
         for m in reversed(messages[:20]):
@@ -268,28 +267,59 @@ class AgentMailbox(Static):
         if event.button.id in ("send-btn", "broadcast-btn"):
             input_widget = self.query_one("#compose-input", Input)
             body = input_widget.value.strip()
-            if not body or self.session_id is None:
+            if not body:
                 return
-
-            try:
-                db = self.app.db  # type: ignore[attr-defined]
-                to_id = self.session_id if event.button.id == "send-btn" else None
-                db.execute(
-                    """
-                    INSERT INTO messages (to_session_id, from_session_id, kind, body, intent, created_at)
-                    VALUES (?, 'tui', 'chat', ?, 'inform', ?)
-                    """,
-                    (to_id, body, db.now_ms()),
-                )
-                input_widget.value = ""
+            if event.button.id == "broadcast-btn" and self.session_id is None:
+                self._send(None, body, "broadcast")
+            elif self.session_id is None:
                 self.app.notify(  # type: ignore[attr-defined]
-                    "Message sent",
-                    severity="information",
-                    timeout=2,
+                    "Select a session first.", severity="warning", timeout=2
                 )
-                self.refresh_inbox()
-            except Exception as exc:
-                self.app.notify(str(exc), severity="error", timeout=4)  # type: ignore[attr-defined]
+                return
+            else:
+                self._send(self.session_id, body, "send")
+        elif event.button.id == "claim-btn":
+            self._claim_inbox()
+
+    def _send(self, to_id: Optional[str], body: str, label: str) -> None:
+        input_widget = self.query_one("#compose-input", Input)
+        try:
+            db = self.app.db  # type: ignore[attr-defined]
+            db.execute(
+                """
+                INSERT INTO messages (to_session_id, from_session_id, kind, body, intent, created_at)
+                VALUES (?, 'tui', 'chat', ?, 'inform', ?)
+                """,
+                (to_id, body, db.now_ms()),
+            )
+            input_widget.value = ""
+            self.app.notify(  # type: ignore[attr-defined]
+                f"Message {label}",
+                severity="information",
+                timeout=2,
+            )
+            self.refresh_inbox()
+        except Exception as exc:
+            self.app.notify(str(exc), severity="error", timeout=4)  # type: ignore[attr-defined]
+
+    def _claim_inbox(self) -> None:
+        """Atomically claim all unclaimed messages for the selected session."""
+        if self.session_id is None:
+            self.app.notify("Select a session first.", severity="warning", timeout=2)  # type: ignore[attr-defined]
+            return
+        try:
+            from ...messaging.messenger import Messenger
+
+            messenger = Messenger(self.app.db)  # type: ignore[attr-defined]
+            claimed = messenger.claim(self.session_id, limit=50)
+            self.app.notify(  # type: ignore[attr-defined]
+                f"Claimed {len(claimed)} message(s).",
+                severity="information",
+                timeout=2,
+            )
+            self.refresh_inbox()
+        except Exception as exc:
+            self.app.notify(str(exc), severity="error", timeout=4)  # type: ignore[attr-defined]
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if event.input.id == "compose-input":

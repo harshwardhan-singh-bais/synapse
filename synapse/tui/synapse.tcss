@@ -1,50 +1,87 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   SYN·APSE TUI — Claude Code premium theme
-   Warm charcoal panels · terracotta brand accent · vibrant neon statuses
+   SYN·APSE TUI — professional Claude Code theme
+   Warm graphite surfaces · terracotta brand accent · hairline borders
    ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Design tokens ───────────────────────────────────────────────────────── */
+
+$bg: #1a1917;
+$surface: #201f1c;
+$surface-2: #242220;
+$surface-3: #2c2a27;
+$input-bg: #141311;
+$feed-bg: #171614;
+
+$border: #38352f;
+$border-2: #524e45;
+
+$text: #e8e4dc;
+$text-dim: #a8a196;
+$text-faint: #6e685d;
+
+$accent: #d97757;
+$accent-hi: #e89173;
+$accent-deep: #b35c3e;
+$on-accent: #1c0f07;
+
+$green: #69b583;
+$teal: #56a8a0;
+$cyan: #6ba5c9;
+$blue: #7a9ec9;
+$purple: #a68ec9;
+$pink: #c983a2;
+$yellow: #d8b04c;
+$orange: #d9864a;
+$red: #e5534b;
 
 /* ─── Globals ─────────────────────────────────────────────────────────────── */
 
 Screen {
-    background: #0e0c12;
-    color: #efe9e0;
+    background: $bg;
+    color: $text;
     layers: base overlay notifications;
 }
 
 /* ─── Header (SynapseHeader) ──────────────────────────────────────────────── */
 
 SynapseHeader {
-    background: #15131c;
-    color: #efe9e0;
+    background: $surface;
+    color: $text;
     dock: top;
-    height: 2;
-    padding: 0 2;
-    border-bottom: solid #262230;
-}
-
-SynapseHeader:focus {
-    border-bottom: double #d97757;
-}
-
-/* ─── Prompt bar (PromptBar) ──────────────────────────────────────────────── */
-
-PromptBar {
-    background: #15131c;
-    color: #968ba2;
-    dock: bottom;
     height: 1;
     padding: 0 2;
-    border-top: solid #262230;
+    border-bottom: solid $border;
+}
+
+/* ─── Command bar (CommandBar) ────────────────────────────────────────────── */
+
+CommandBar {
+    background: $surface;
+    color: $text-dim;
+    dock: bottom;
+    height: 3;
+    padding: 0 1;
+    border-top: solid $border;
+}
+
+#cmd-input {
+    border: none;
+    background: transparent;
+    padding: 0 1;
+}
+
+#cmd-input:focus {
+    border: none;
 }
 
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
 
 Footer {
-    background: #111018;
-    color: #968ba2;
+    background: $surface;
+    color: $text-dim;
     dock: bottom;
     height: 1;
-    border-top: solid #262230;
+    border-top: solid $border;
 }
 
 FooterKey {
@@ -52,22 +89,24 @@ FooterKey {
 }
 
 FooterKey > .footer-key--key {
-    background: #241d28;
-    color: #ff8a5c;
+    background: $surface-3;
+    color: $accent-hi;
     text-style: bold;
 }
 
 FooterKey:hover > .footer-key--key {
-    background: #d97757;
-    color: #1c0f07;
+    background: $accent;
+    color: $on-accent;
 }
 
 FooterKey > .footer-key--description {
-    color: #8d8294;
+    color: $text-dim;
 }
 
 FooterLabel {
-    color: #5f566c;
+    color: $text-faint;
+}
+
 /* ─── Layout ──────────────────────────────────────────────────────────────── */
 
 #app-layout {
@@ -81,8 +120,8 @@ SessionSidebar {
     width: 30;
     min-width: 24;
     max-width: 44;
-    background: #111018;
-    border-right: solid #262230;
+    background: $surface;
+    border-right: solid $border;
     padding: 0;
     height: 1fr;
 }
@@ -92,17 +131,17 @@ SessionSidebar > Vertical {
 }
 
 SessionSidebar .sidebar-title {
-    color: #ffd166;
+    color: $text-dim;
     text-style: bold;
-    padding: 1 1;
-    border-bottom: solid #262230;
-    background: #15131c;
+    padding: 0 1;
+    border-bottom: solid $border;
+    background: $surface-2;
     width: 1fr;
-    height: 3;
+    height: 1;
 }
 
 SessionSidebar .sidebar-empty {
-    color: #5f566c;
+    color: $text-faint;
     margin: 2 1;
     text-style: italic;
 }
@@ -116,29 +155,29 @@ SessionSidebar ListView {
 
 SessionSidebar ListItem {
     padding: 1 1;
-    border-bottom: solid #191621;
+    border-bottom: solid #28251f;
     background: transparent;
     height: auto;
 }
 
 SessionSidebar ListItem:hover {
-    background: #1c1825;
+    background: $surface-3;
 }
 
 SessionSidebar ListItem.--highlight {
-    background: #241d28;
-    border-left: tall #d97757;
+    background: $surface-3;
+    border-left: tall $accent;
 }
 
 SessionSidebar ListItem.selected-item {
-    background: #221c2a;
-    border-left: tall #ff8a5c;
+    background: $surface-3;
+    border-left: tall $accent-hi;
 }
 
 /* ─── Main Content Area ───────────────────────────────────────────────────── */
 
 #main-content {
-    background: #0e0c12;
+    background: $bg;
     height: 1fr;
     width: 1fr;
 }
@@ -146,44 +185,75 @@ SessionSidebar ListItem.selected-item {
 /* ─── Tabs ────────────────────────────────────────────────────────────────── */
 
 TabbedContent {
-    background: #0e0c12;
+    background: $bg;
     height: 1fr;
 }
 
 TabbedContent > ContentSwitcher {
-    background: #0e0c12;
+    background: $bg;
     height: 1fr;
 }
 
 TabPane {
-    background: #0e0c12;
+    background: $bg;
     padding: 0;
     height: 1fr;
 }
 
 Tabs {
-    background: #15131c;
-    border-bottom: solid #262230;
+    background: $surface;
+    border-bottom: solid $border;
 }
 
 Tabs > Tab {
-    color: #7a6f88;
-    padding: 0 3;
+    color: $text-faint;
+    padding: 0 2;
     background: transparent;
+    text-style: bold;
 }
 
 Tabs > Tab:hover {
-    color: #efe9e0;
-    background: #1c1825;
+    color: $text-dim;
+    background: $surface-3;
 }
 
 Tabs > Tab.-active {
-    color: #ff8a5c;
-    background: #0e0c12;
+    color: $text;
+    background: $bg;
+    border-bottom: tall $accent;
+    text-style: bold;
+}
+
+/* ─── Shared panel chrome ─────────────────────────────────────────────────── */
+
+.dashboard-title {
+    color: $text;
+    text-style: bold;
+    padding: 0 1;
+    border-bottom: solid $border;
+    background: $surface-2;
+    width: 1fr;
+    height: 1;
+}
+
+.panel-subtitle {
+    color: $text-faint;
+    text-style: bold;
+    padding: 0 1;
+    border-bottom: solid #28251f;
+    background: $surface;
+}
+
+.panel-hint {
+    color: $text-faint;
+    text-style: italic;
+    margin: 1 1;
+}
+
 /* ─── Orchestration Dashboard ─────────────────────────────────────────────── */
 
 OrchestrationDashboard {
-    background: #0e0c12;
+    background: $bg;
     height: 1fr;
 }
 
@@ -191,37 +261,15 @@ OrchestrationDashboard > Vertical {
     height: 1fr;
 }
 
-.dashboard-title {
-    color: #3ddc97;
-    text-style: bold;
-    padding: 1 1;
-    border-bottom: solid #262230;
-    background: #15131c;
-    width: 1fr;
-    height: 3;
-}
-
-.dashboard-title .dashboard-spinner {
-    color: #ff8a5c;
-}
-
-.panel-subtitle {
-    color: #c792ea;
-    text-style: italic bold;
-    padding: 0 1;
-    border-bottom: solid #191621;
-    background: #111018;
-}
-
 #dash-top {
     height: 16;
-    border-bottom: solid #262230;
+    border-bottom: solid $border;
 }
 
 #runs-panel {
     width: 1fr;
-    background: #0e0c12;
-    border-right: solid #262230;
+    background: $bg;
+    border-right: solid $border;
     height: 1fr;
 }
 
@@ -232,7 +280,7 @@ OrchestrationDashboard > Vertical {
 
 #feed-panel {
     width: 1fr;
-    background: #0e0c12;
+    background: $bg;
     height: 1fr;
 }
 
@@ -243,7 +291,7 @@ OrchestrationDashboard > Vertical {
 
 #stages-panel {
     height: 10;
-    border-bottom: solid #262230;
+    border-bottom: solid $border;
 }
 
 #cost-panel {
@@ -254,55 +302,52 @@ RunCard {
     height: auto;
     margin: 0 0 1 0;
     padding: 1;
-    border: solid #262230;
-    background: #15131c;
+    border: solid $border;
+    background: $surface;
 }
 
 RunCard.status-running {
-    border: tall #3ddc97;
-    background: #101a19;
+    border: tall $green;
+    background: #1d2320;
 }
 
 RunCard.status-completed {
-    border: solid #2be0c8;
+    border: solid $teal;
 }
 
 RunCard.status-failed {
-    border: solid #ff5d6b;
+    border: solid $red;
 }
 
 RunCard.status-pending {
-    border: solid #262230;
-}
-    border-top: tall #d97757;
-    text-style: bold;
+    border: solid $border;
 }
 
 /* ─── Session Terminal ────────────────────────────────────────────────────── */
 
 SessionTerminal {
-    background: #100e16;
-    border: solid #262230;
+    background: $feed-bg;
+    border: solid $border;
     height: 1fr;
 }
 
 #terminal-scroll {
-    background: #100e16;
+    background: $feed-bg;
     height: 1fr;
     padding: 0;
 }
 
 #terminal-log {
-    background: #100e16;
-    color: #968ba2;
+    background: $feed-bg;
+    color: $text-dim;
     height: 1fr;
     padding: 1 1;
 }
-}
+
 /* ─── Agent Mailbox ───────────────────────────────────────────────────────── */
 
 AgentMailbox {
-    background: #0e0c12;
+    background: $bg;
     height: 1fr;
 }
 
@@ -312,30 +357,30 @@ AgentMailbox > Vertical {
 
 #mailbox-top {
     height: 1fr;
-    border-bottom: solid #262230;
+    border-bottom: solid $border;
 }
 
 #inbox-panel {
     width: 40%;
-    border-right: solid #262230;
-    background: #0e0c12;
+    border-right: solid $border;
+    background: $bg;
     padding: 0;
 }
 
 #inbox-content {
-    color: #bcb1c6;
+    color: $text-dim;
     padding: 1;
     height: 1fr;
 }
 
 #thread-panel {
     width: 1fr;
-    background: #0e0c12;
+    background: $bg;
     padding: 0;
 }
 
 #thread-content {
-    color: #bcb1c6;
+    color: $text-dim;
     padding: 1;
     height: auto;
 }
@@ -343,8 +388,8 @@ AgentMailbox > Vertical {
 #compose-area {
     height: 3;
     padding: 0 1;
-    background: #15131c;
-    border-top: solid #262230;
+    background: $surface;
+    border-top: solid $border;
 }
 
 #compose-input {
@@ -355,268 +400,773 @@ AgentMailbox > Vertical {
 #send-btn {
     height: 3;
     margin: 0 1 0 0;
-    background: #d97757;
-    color: #1c0f07;
+    background: $accent;
+    color: $on-accent;
     border: none;
     text-style: bold;
 }
 
 #send-btn:hover {
-    background: #ff8a5c;
+    background: $accent-hi;
 }
 
 #broadcast-btn {
     height: 3;
-    background: #241d28;
-    color: #c792ea;
-    border: solid #3b3350;
+    background: $surface-3;
+    color: $purple;
+    border: solid $border-2;
 }
 
 #broadcast-btn:hover {
-    background: #3b3350;
-    color: #efe9e0;
+    background: $border-2;
+    color: $text;
+}
+
+/* ─── Overview panel ──────────────────────────────────────────────────────── */
+
+OverviewPanel {
+    background: $bg;
+    height: 1fr;
+}
+
+OverviewPanel > Vertical {
+    height: 1fr;
+}
+
+#overview-scroll {
+    height: 1fr;
+    padding: 0 1;
+}
+
+#overview-content {
+    height: auto;
+    padding: 1;
+}
+
+.stat-grid {
+    layout: horizontal;
+    height: auto;
+    margin: 0 0 1 0;
+}
+
+.stat-card {
+    width: 1fr;
+    height: 5;
+    margin: 0 1 0 0;
+    padding: 1;
+    border: solid $border;
+    background: $surface;
+}
+
+.stat-card .stat-label {
+    color: $text-faint;
+    text-style: bold;
+}
+
+.stat-card .stat-value {
+    color: $text;
+    text-style: bold;
+    margin-top: 1;
+}
+
+/* ─── Tasks panel ─────────────────────────────────────────────────────────── */
+
+TaskBoard {
+    background: $bg;
+    height: 1fr;
+}
+
+TaskBoard > Vertical {
+    height: 1fr;
+}
+
+#tasks-body {
+    height: 1fr;
+    border-bottom: solid $border;
+}
+
+#tasks-list {
+    width: 1fr;
+    border-right: solid $border;
+    background: $bg;
+}
+
+#task-detail {
+    width: 1fr;
+    background: $bg;
+    padding: 0 1;
+}
+
+#task-detail-content {
+    color: $text-dim;
+    padding: 1;
+    height: auto;
+}
+
+#tasks-actions {
+    height: 3;
+    padding: 0 1;
+    background: $surface;
+    border-top: solid $border;
+}
+
+#tasks-actions Button {
+    height: 3;
+    margin: 0 1 0 0;
+}
+
+/* ─── Automations panel ───────────────────────────────────────────────────── */
+
+AutomationPanel {
+    background: $bg;
+    height: 1fr;
+}
+
+AutomationPanel > Vertical {
+    height: 1fr;
+}
+
+#automations-body {
+    height: 1fr;
+    border-bottom: solid $border;
+}
+
+#automations-list {
+    width: 55%;
+    border-right: solid $border;
+    background: $bg;
+}
+
+#automation-detail {
+    width: 1fr;
+    background: $bg;
+    padding: 0 1;
+}
+
+#automation-detail-content {
+    color: $text-dim;
+    padding: 1;
+    height: auto;
+}
+
+#automation-history {
+    height: 10;
+    border-top: solid $border;
+}
+
+#automation-history-content {
+    color: $text-dim;
+    padding: 0 1;
+    height: auto;
+}
+
+#automations-actions {
+    height: 3;
+    padding: 0 1;
+    background: $surface;
+    border-top: solid $border;
+}
+
+#automations-actions Button {
+    height: 3;
+    margin: 0 1 0 0;
+}
+
+/* ─── Knowledge panel ─────────────────────────────────────────────────────── */
+
+KnowledgePanel {
+    background: $bg;
+    height: 1fr;
+}
+
+KnowledgePanel > Vertical {
+    height: 1fr;
+}
+
+#knowledge-body {
+    height: 1fr;
+    border-bottom: solid $border;
+}
+
+#knowledge-list {
+    width: 45%;
+    border-right: solid $border;
+    background: $bg;
+}
+
+#knowledge-detail {
+    width: 1fr;
+    background: $bg;
+    padding: 0 1;
+}
+
+#knowledge-detail-content {
+    color: $text-dim;
+    padding: 1;
+    height: auto;
+}
+
+#knowledge-actions {
+    height: 3;
+    padding: 0 1;
+    background: $surface;
+    border-top: solid $border;
+}
+
+#knowledge-actions Button {
+    height: 3;
+    margin: 0 1 0 0;
+}
+
+/* ─── Transcripts panel ───────────────────────────────────────────────────── */
+
+TranscriptPanel {
+    background: $bg;
+    height: 1fr;
+}
+
+TranscriptPanel > Vertical {
+    height: 1fr;
+}
+
+#transcripts-body {
+    height: 1fr;
+    border-bottom: solid $border;
+}
+
+#transcripts-list {
+    width: 45%;
+    border-right: solid $border;
+    background: $bg;
+}
+
+#transcript-detail {
+    width: 1fr;
+    background: $bg;
+    padding: 0 1;
+}
+
+#transcript-detail-content {
+    color: $text-dim;
+    padding: 1;
+    height: auto;
+}
+
+#transcript-search-row {
+    height: 3;
+    padding: 0 1;
+    background: $surface;
+    border-top: solid $border;
+}
+
+/* ─── Hooks panel ─────────────────────────────────────────────────────────── */
+
+HooksPanel {
+    background: $bg;
+    height: 1fr;
+}
+
+HooksPanel > Vertical {
+    height: 1fr;
+}
+
+#hooks-table-wrap {
+    height: 1fr;
+    padding: 0 1;
+    border-bottom: solid $border;
+}
+
+#hooks-lifecycle {
+    height: 12;
+    padding: 0 1;
+    border-bottom: solid $border;
+}
+
+#hooks-lifecycle-content {
+    height: auto;
+}
+
+#hooks-actions {
+    height: 3;
+    padding: 0 1;
+    background: $surface;
+    border-top: solid $border;
+}
+
+#hooks-actions Button {
+    height: 3;
+    margin: 0 1 0 0;
+}
+
+/* ─── System panel ────────────────────────────────────────────────────────── */
+
+SystemPanel {
+    background: $bg;
+    height: 1fr;
+}
+
+SystemPanel > Vertical {
+    height: 1fr;
+}
+
+#system-scroll {
+    height: 1fr;
+    padding: 0 1;
+}
+
+#system-content {
+    height: auto;
+    padding: 1;
+}
+
+#system-actions {
+    height: 3;
+    padding: 0 1;
+    background: $surface;
+    border-top: solid $border;
+}
+
+#system-actions Button {
+    height: 3;
+    margin: 0 1 0 0;
+}
+
+/* ─── Relay panel ─────────────────────────────────────────────────────────── */
+
+RelayPanel {
+    background: $bg;
+    height: 1fr;
+}
+
+RelayPanel > Vertical {
+    height: 1fr;
+}
+
+#relay-scroll {
+    height: 1fr;
+    padding: 0 1;
+}
+
+#relay-content {
+    height: auto;
+    padding: 1;
+}
+
+.relay-status-card {
+    width: 1fr;
+    height: auto;
+    margin: 0 0 1 0;
+    padding: 1;
+    border: solid $border;
+    background: $surface;
+}
+
+#relay-actions {
+    height: 3;
+    padding: 0 1;
+    background: $surface;
+    border-top: solid $border;
+}
+
+#relay-actions Button {
+    height: 3;
+    margin: 0 1 0 0;
+}
+
+/* ─── Activity feed panel ─────────────────────────────────────────────────── */
+
+ActivityFeed {
+    background: $bg;
+    height: 1fr;
+}
+
+ActivityFeed > Vertical {
+    height: 1fr;
+}
+
+#activity-scroll {
+    height: 1fr;
+}
+
+#activity-content {
+    color: $text-dim;
+    padding: 1;
+    height: auto;
+}
+
+/* ─── List views used by utility panels ───────────────────────────────────── */
+
+ListView {
+    background: transparent;
+    border: none;
+    height: 1fr;
+    padding: 0;
+}
+
+ListView ListItem {
+    padding: 1 1;
+    border-bottom: solid #28251f;
+    background: transparent;
+    height: auto;
+}
+
+ListView ListItem:hover {
+    background: $surface-3;
+}
+
+ListView ListItem.--highlight {
+    background: $surface-3;
+    border-left: tall $accent;
+}
+
+ListView ListItem.selected-item {
+    background: $surface-3;
+    border-left: tall $accent-hi;
 }
 
 /* ─── DataTable ───────────────────────────────────────────────────────────── */
 
 DataTable {
-    background: #0e0c12;
-    color: #bcb1c6;
+    background: $bg;
+    color: $text-dim;
     border: none;
     padding: 0;
 }
 
 DataTable > .datatable--header {
-    background: #15131c;
-    color: #5fd4ff;
+    background: $surface;
+    color: $text-faint;
     text-style: bold;
 }
 
 DataTable > .datatable--header-cursor {
-    background: #241d28;
-    color: #ff8a5c;
+    background: $surface-3;
+    color: $accent-hi;
 }
 
 DataTable > .datatable--cursor {
-    background: #241d28;
-    color: #efe9e0;
+    background: $surface-3;
+    color: $text;
     text-style: bold;
 }
 
 DataTable > .datatable--even-row {
-    background: #111018;
+    background: $surface;
 }
 
 DataTable > .datatable--odd-row {
-    background: #0e0c12;
+    background: $bg;
 }
 
 DataTable > .datatable--hover {
-    background: #1c1825;
+    background: $surface-3;
 }
 
 /* ─── Input ───────────────────────────────────────────────────────────────── */
 
 Input {
-    background: #09080d;
-    color: #efe9e0;
-    border: solid #262230;
+    background: $input-bg;
+    color: $text;
+    border: solid $border;
 }
 
 Input:focus {
-    border: tall #d97757;
+    border: tall $accent;
 }
 
 Input > .input--placeholder {
-    color: #5f566c;
+    color: $text-faint;
+}
+
+/* ─── TextArea ────────────────────────────────────────────────────────────── */
+
+TextArea {
+    background: $input-bg;
+    color: $text;
+    border: solid $border;
+}
+
+TextArea:focus {
+    border: tall $accent;
 }
 
 /* ─── Button ──────────────────────────────────────────────────────────────── */
 
 Button {
-    background: #241d28;
-    color: #efe9e0;
-    border: solid #3b3350;
+    background: $surface-3;
+    color: $text;
+    border: solid $border-2;
 }
 
 Button:hover {
-    background: #3b3350;
+    background: $border-2;
 }
 
 Button.-primary {
-    background: #d97757;
-    color: #1c0f07;
+    background: $accent;
+    color: $on-accent;
     border: none;
     text-style: bold;
 }
 
 Button.-primary:hover {
-    background: #ff8a5c;
+    background: $accent-hi;
+}
+
+Button.-success {
+    background: $green;
+    color: #0d2015;
+    border: none;
+    text-style: bold;
+}
+
+Button.-success:hover {
+    background: #85c99b;
+}
+
+Button.-error {
+    background: $red;
+    color: #2a0e0c;
+    border: none;
+    text-style: bold;
+}
+
+Button.-error:hover {
+    background: #ef7a74;
 }
 
 /* ─── Log ─────────────────────────────────────────────────────────────────── */
 
 Log {
-    background: #100e16;
-    color: #bcb1c6;
+    background: $feed-bg;
+    color: $text-dim;
     padding: 0;
 }
 
 /* ─── Select & options ────────────────────────────────────────────────────── */
 
 Select {
-    background: #09080d;
-    color: #efe9e0;
-    border: solid #262230;
+    background: $input-bg;
+    color: $text;
+    border: solid $border;
     padding: 0 1;
 }
 
 Select:focus {
-    border: tall #d97757;
+    border: tall $accent;
 }
 
 SelectOverlay > Option {
-    background: #0e0c12;
-    color: #bcb1c6;
+    background: $bg;
+    color: $text-dim;
     padding: 0 1;
 }
 
 SelectOverlay > Option:hover {
-    background: #1c1825;
-    color: #efe9e0;
+    background: $surface-3;
+    color: $text;
 }
 
 SelectOverlay > Option.-highlighted {
-    background: #241d28;
-    color: #ff8a5c;
+    background: $surface-3;
+    color: $accent-hi;
 }
 
 /* ─── ScrollableContainer ─────────────────────────────────────────────────── */
 
 ScrollableContainer {
-    scrollbar-color: #3b3350;
-    scrollbar-color-hover: #d97757;
-    scrollbar-background: #0e0c12;
-    scrollbar-background-hover: #111018;
+    scrollbar-color: $border-2;
+    scrollbar-color-hover: $accent;
+    scrollbar-background: $bg;
+    scrollbar-background-hover: $surface;
 }
+
 /* ─── Toast Notifications ─────────────────────────────────────────────────── */
 
 Toast {
-    background: #15131c;
-    border: tall #d97757;
-    color: #efe9e0;
+    background: $surface-2;
+    border: tall $accent;
+    color: $text;
 }
 
 ToastTitle {
-    color: #ff8a5c;
+    color: $accent-hi;
     text-style: bold;
 }
 
 ToastDescription {
-    color: #bcb1c6;
+    color: $text-dim;
 }
 
 Toast.-information {
-    border: tall #5fd4ff;
-    background: #0e1c26;
+    border: tall $cyan;
+    background: #1e2931;
 }
 
 Toast.-information ToastTitle {
-    color: #5fd4ff;
+    color: $cyan;
 }
 
 Toast.-warning {
-    border: tall #ffd166;
-    background: #2a2008;
+    border: tall $yellow;
+    background: #342d1c;
 }
 
 Toast.-warning ToastTitle {
-    color: #ffd166;
+    color: $yellow;
 }
 
 Toast.-error {
-    border: tall #ff5d6b;
-    background: #2a0f14;
+    border: tall $red;
+    background: #362220;
 }
 
 Toast.-error ToastTitle {
-    color: #ff5d6b;
+    color: $red;
 }
 
 Toast.-success {
-    border: tall #3ddc97;
-    background: #0d241b;
+    border: tall $green;
+    background: #1f2f26;
 }
 
 Toast.-success ToastTitle {
-    color: #3ddc97;
+    color: $green;
 }
 
-/* ─── Modal dialog (NewSessionScreen) ────────────────────────────────────── */
+/* ─── Modal dialog (shared chrome) ────────────────────────────────────────── */
 
-NewSessionScreen {
+ModalScreen {
     align: center middle;
-    background: rgba(14, 12, 18, 0.82);
+    background: rgba(13, 12, 10, 0.82);
 }
 
 #dialog {
-    background: #15131c;
-    border: double #d97757;
-    padding: 2 3;
-    width: 64;
+    background: $surface-2;
+    border: round $accent-deep;
+    padding: 1 3;
+    width: 68;
     height: auto;
-    max-height: 80%;
+    max-height: 92%;
+    overflow-y: auto;
 }
 
 #dialog-title {
-    color: #ffd166;
+    color: $text;
     text-style: bold;
-    text-align: center;
     margin-bottom: 1;
-    padding-bottom: 1;
-    border-bottom: tall #262230;
+    padding-bottom: 0;
+    border-bottom: solid $border;
+    height: 1;
 }
 
 #dialog Label {
-    color: #c792ea;
+    color: $text-dim;
+    text-style: bold;
     margin-top: 1;
 }
 
+#dialog Input,
+#dialog Select,
+#dialog TextArea {
+    margin-top: 0;
+    background: $input-bg;
+    border: solid $border;
+    color: $text;
+}
+
+#dialog Input:focus,
+#dialog Select:focus,
+#dialog TextArea:focus {
+    border: tall $accent;
+}
+
 #dialog-buttons {
-    margin-top: 2;
+    margin-top: 1;
     align: right middle;
     height: 3;
 }
 
+#dialog-buttons Button {
+    height: 3;
+    margin-left: 1;
+}
+
 #create-btn {
-    margin-right: 1;
-    background: #d97757;
+    background: $accent;
     border: none;
-    color: #1c0f07;
+    color: $on-accent;
 }
 
 #create-btn:hover {
-    background: #ff8a5c;
+    background: $accent-hi;
 }
 
 #cancel-btn {
-    background: #241d28;
-    border: solid #3b3350;
-    color: #968ba2;
+    background: $surface-3;
+    border: solid $border-2;
+    color: $text-dim;
+}
+
+#cancel-btn:hover {
+    background: $border-2;
+}
+
+.field-hint {
+    color: $text-faint;
+    text-style: italic;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* ─── Help overlay ────────────────────────────────────────────────────────── */
+
+#help-panel {
+    width: 76;
+    height: auto;
+    max-height: 90%;
+    background: $surface-2;
+    border: round $accent-deep;
+    padding: 1 3;
+    overflow-y: auto;
+}
+
+#help-title {
+    color: $text;
+    text-style: bold;
+    height: 1;
+    border-bottom: solid $border;
+    margin-bottom: 1;
+}
+
+#help-content {
+    color: $text-dim;
+    height: auto;
+}
+
+#help-hint {
+    color: $text-faint;
+    height: 1;
+    margin-top: 1;
 }
 
 /* ─── Status colour helpers ───────────────────────────────────────────────── */
 
-.status-idle        { color: #968ba2; }
-.status-working     { color: #3ddc97; }
-.status-active      { color: #3ddc97; }
-.status-blocked     { color: #ff5d6b; }
-.status-done        { color: #5fd4ff; }
-.status-completed   { color: #2be0c8; }
-.status-error       { color: #ff5d6b; }
-.status-failed      { color: #ff5d6b; }
-.status-unreachable { color: #ffd166; }
-.status-paused      { color: #ffd166; }
+.status-idle        { color: $text-dim; }
+.status-working     { color: $green; }
+.status-active      { color: $green; }
+.status-running     { color: $green; }
+.status-blocked     { color: $red; }
+.status-done        { color: $cyan; }
+.status-completed   { color: $teal; }
+.status-error       { color: $red; }
+.status-failed      { color: $red; }
+.status-unreachable { color: $yellow; }
+.status-paused      { color: $yellow; }
+.status-pending     { color: $text-faint; }
+.status-todo        { color: $text-dim; }
+.status-in_progress { color: $yellow; }
+
 /* ─── ProgressBar ─────────────────────────────────────────────────────────── */
 
 ProgressBar {
@@ -624,23 +1174,23 @@ ProgressBar {
 }
 
 ProgressBar > .bar--complete {
-    color: #3ddc97;
+    color: $accent;
 }
 
 ProgressBar > .bar--indeterminate {
-    color: #5fd4ff;
+    color: $cyan;
 }
 
 ProgressBar > .bar--bar {
-    color: #262230;
+    color: $border;
 }
 
 /* ─── Perf HUD ───────────────────────────────────────────────────────────── */
 
 #perf-hud {
-    background: rgba(21, 19, 28, 0.94);
-    border: tall #3b3350;
-    color: #968ba2;
+    background: rgba(32, 31, 28, 0.94);
+    border: tall $border-2;
+    color: $text-dim;
     dock: right;
     width: 34;
     height: auto;
@@ -655,30 +1205,21 @@ ProgressBar > .bar--bar {
 }
 
 .perf-title {
-    color: #ffd166;
+    color: $yellow;
     text-style: bold;
-    border-bottom: solid #262230;
+    border-bottom: solid $border;
     margin-bottom: 1;
 }
 
 .perf-row {
-    color: #968ba2;
+    color: $text-dim;
     height: 1;
-}
-
-.perf-label {
-    color: #5f566c;
-}
-
-.perf-value {
-    color: #5fd4ff;
-    text-style: bold;
 }
 
 /* ─── Boot screen ─────────────────────────────────────────────────────────── */
 
 BootScreen {
-    background: #0e0c12;
+    background: $bg;
     align: center middle;
 }
 
@@ -689,7 +1230,7 @@ BootScreen {
 }
 
 #boot-logo {
-    color: #efe9e0;
+    color: $text;
     text-align: center;
     height: 7;
 }
@@ -697,7 +1238,7 @@ BootScreen {
 #boot-status {
     height: 1;
     text-align: center;
-    color: #968ba2;
+    color: $text-dim;
     margin-top: 1;
 }
 
@@ -708,13 +1249,13 @@ BootScreen {
 }
 
 #boot-hint {
-    color: #5f566c;
+    color: $text-faint;
     text-align: center;
     margin-top: 1;
 }
 
 #boot-version {
-    color: #5f566c;
+    color: $text-faint;
     dock: bottom;
     height: 1;
     padding: 0 2;
@@ -725,7 +1266,7 @@ BootScreen {
 
 AsciiLoading {
     height: 1;
-    color: #5fd4ff;
+    color: $cyan;
     margin: 0 1;
 }
 
@@ -741,17 +1282,18 @@ ProgressBarLoader {
     height: auto;
     margin: 3 6;
     padding: 0;
-    border: tall #262230;
-    background: #15131c;
+    border: tall $border;
+    background: $surface-2;
     align: left top;
 }
 
 #showcase-title {
-    color: #ffd166;
+    color: $text;
     text-style: bold;
-    padding: 1 1;
-    border-bottom: solid #262230;
-    background: #1c1825;
+    padding: 0 1;
+    height: 1;
+    border-bottom: solid $border;
+    background: $surface-3;
 }
 
 #showcase-spacer {
@@ -759,13 +1301,13 @@ ProgressBarLoader {
 }
 
 #showcase-hint {
-    color: #5f566c;
+    color: $text-faint;
     margin: 1 1;
 }
 
 /* ─── LoadingIndicator (built-in) ─────────────────────────────────────────── */
 
 LoadingIndicator {
-    color: #ff8a5c;
-    background: rgba(21, 19, 28, 0.9);
+    color: $accent-hi;
+    background: rgba(32, 31, 28, 0.9);
 }
